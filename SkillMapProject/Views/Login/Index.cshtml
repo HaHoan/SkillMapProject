@@ -1,0 +1,36 @@
+﻿@model SkillMapProject.Models.Member
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/common.css" rel="stylesheet" />
+    <title>Index</title>
+</head>
+<body>
+
+    <div class="centered p-5">
+        @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+        {
+        <div class="form-group shadow p-5">
+            @Html.AntiForgeryToken()
+            @Html.ValidationMessage("Error", new { @class = "text-danger" })
+            <br />
+            @Html.TextBoxFor(m => m.Code, new { @class = "form-control", placeholder = "Code", @required = "required" })
+
+            <br />
+            @Html.TextBoxFor(m => m.Pass, new { @class = "form-control", placeholder = "Password", @type = "password", @required = "required" })
+            <br />
+            <input type="submit" value="Đăng nhập" class="btn btn-primary m-3" />
+        </div>
+        }
+    </div>
+
+</body>
+</html>

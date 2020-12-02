@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cea414ab93f848eeb4bd28c7e80c0454" Name="Diagram1">
+        <EntityTypeShape EntityType="UMC_SKILLModel.Certification" Width="1.5" PointX="7.5" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="UMC_SKILLModel.History" Width="1.5" PointX="10.5" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="UMC_SKILLModel.Member" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="UMC_SKILLModel.Role_Member" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="UMC_SKILLModel.Skill" Width="1.5" PointX="5.25" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="UMC_SKILLModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_MemberCer" ManuallyRouted="false" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_MemberMarker" ManuallyRouted="false" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_MemberUpdatorCer" ManuallyRouted="false" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_SkillCer" ManuallyRouted="false" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_MemberHis" ManuallyRouted="false" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_MemberMarkerHis" ManuallyRouted="false" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_MemberUpdatorHis" ManuallyRouted="false" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_SkillHis" ManuallyRouted="false" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_MemberCreater" ManuallyRouted="false" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_MemberUpdator" ManuallyRouted="false" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_RoleMember" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

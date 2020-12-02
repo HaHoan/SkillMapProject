@@ -1,0 +1,65 @@
+﻿@using SkillMapProject.Models
+@{
+    Member user = (Member)HttpContext.Current.Session[Constant.SESSION_LOGIN];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/css/common.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+               <div class="row">
+                   <div class="col-2">
+                       <img src="~/Resources/logo.png" />
+                   </div>
+                   <div class="col-10">
+                       <h2>CERTIFICATE AND SKILL MAP</h2>
+                   </div>
+               </div>
+            </div>
+            <ul class="nav justify-content-end">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-black-50" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bars"></i></a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Trang chủ</a>
+                        <a class="dropdown-item" href="#">Thêm Certificate</a>
+                        <a class="dropdown-item" href="#">Thêm Certificate cho nhân viên</a>
+                        <div class="dropdown-divider"></div>
+                        @if (user != null)
+                        {
+                            <a class="dropdown-item" href="#">@(user.Name)</a>
+                            <a class="dropdown-item" href="@Url.Action("Logout", "Login")">Đăng xuất</a>
+                        }
+                        else
+                        {
+                            <a class="dropdown-item" href="@Url.Action("Login", "Login")">Đăng nhập</a>
+                        }
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid body-content p-5">
+       
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - UMC Việt Nam</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

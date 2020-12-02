@@ -1,0 +1,681 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="UMC_SKILLModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Certification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="SkillID" Type="int" Nullable="false" />
+          <Property Name="Mark" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Result" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateComplete" Type="datetime" />
+          <Property Name="DateMark" Type="datetime" Nullable="false" />
+          <Property Name="Marker" Type="int" />
+          <Property Name="Updator" Type="int" />
+          <Property Name="UpdateTime" Type="datetime" />
+          <Property Name="Note" Type="nvarchar" MaxLength="100" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="Task" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="SkillID" Type="int" Nullable="false" />
+          <Property Name="Mark" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Result" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateComplete" Type="datetime" />
+          <Property Name="DateMark" Type="datetime" Nullable="false" />
+          <Property Name="Marker" Type="int" />
+          <Property Name="Updator" Type="int" />
+          <Property Name="UpdateTime" Type="datetime" />
+          <Property Name="Note" Type="nvarchar" MaxLength="100" />
+          <Property Name="Sort" Type="int" />
+          <Property Name="Task" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Dept" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Pos" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="DateEnter" Type="datetime" Nullable="false" />
+          <Property Name="Removed" Type="int" Nullable="false" />
+          <Property Name="Pass" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role_Member">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Skill">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Dept" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Creator" Type="int" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="Detail" Type="nvarchar" MaxLength="100" />
+          <Property Name="UpdateTime" Type="datetime" />
+          <Property Name="Updator" Type="int" />
+          <Property Name="Removed" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_MemberCer">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Certification" Type="Self.Certification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certification">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberCreater">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Skill" Type="Self.Skill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Skill">
+              <PropertyRef Name="Creator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberHis">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="History" Type="Self.History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberMarker">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Certification" Type="Self.Certification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certification">
+              <PropertyRef Name="Marker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberMarkerHis">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="History" Type="Self.History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="Marker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberUpdator">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Skill" Type="Self.Skill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Skill">
+              <PropertyRef Name="Updator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberUpdatorCer">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Certification" Type="Self.Certification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certification">
+              <PropertyRef Name="Updator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberUpdatorHis">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="History" Type="Self.History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="Updator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleMember">
+          <End Role="Role_Member" Type="Self.Role_Member" Multiplicity="0..1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role_Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SkillCer">
+          <End Role="Skill" Type="Self.Skill" Multiplicity="1" />
+          <End Role="Certification" Type="Self.Certification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Skill">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certification">
+              <PropertyRef Name="SkillID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SkillHis">
+          <End Role="Skill" Type="Self.Skill" Multiplicity="1" />
+          <End Role="History" Type="Self.History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Skill">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="SkillID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="UMC_SKILLModelStoreContainer">
+          <EntitySet Name="Certification" EntityType="Self.Certification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="History" EntityType="Self.History" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role_Member" EntityType="Self.Role_Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Skill" EntityType="Self.Skill" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_MemberCer" Association="Self.FK_MemberCer">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Certification" EntitySet="Certification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberCreater" Association="Self.FK_MemberCreater">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Skill" EntitySet="Skill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberHis" Association="Self.FK_MemberHis">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="History" EntitySet="History" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberMarker" Association="Self.FK_MemberMarker">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Certification" EntitySet="Certification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberMarkerHis" Association="Self.FK_MemberMarkerHis">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="History" EntitySet="History" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberUpdator" Association="Self.FK_MemberUpdator">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Skill" EntitySet="Skill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberUpdatorCer" Association="Self.FK_MemberUpdatorCer">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Certification" EntitySet="Certification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberUpdatorHis" Association="Self.FK_MemberUpdatorHis">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="History" EntitySet="History" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleMember" Association="Self.FK_RoleMember">
+            <End Role="Role_Member" EntitySet="Role_Member" />
+            <End Role="Member" EntitySet="Member" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SkillCer" Association="Self.FK_SkillCer">
+            <End Role="Skill" EntitySet="Skill" />
+            <End Role="Certification" EntitySet="Certification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SkillHis" Association="Self.FK_SkillHis">
+            <End Role="Skill" EntitySet="Skill" />
+            <End Role="History" EntitySet="History" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UMC_SKILLModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Certification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="SkillID" Type="Int32" Nullable="false" />
+          <Property Name="Mark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Result" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateComplete" Type="DateTime" Precision="3" />
+          <Property Name="DateMark" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Marker" Type="Int32" />
+          <Property Name="Updator" Type="Int32" />
+          <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+          <Property Name="Note" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="Task" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_MemberCer" FromRole="Certification" ToRole="Member" />
+          <NavigationProperty Name="Member1" Relationship="Self.FK_MemberMarker" FromRole="Certification" ToRole="Member" />
+          <NavigationProperty Name="Member2" Relationship="Self.FK_MemberUpdatorCer" FromRole="Certification" ToRole="Member" />
+          <NavigationProperty Name="Skill" Relationship="Self.FK_SkillCer" FromRole="Certification" ToRole="Skill" />
+        </EntityType>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="SkillID" Type="Int32" Nullable="false" />
+          <Property Name="Mark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Result" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateComplete" Type="DateTime" Precision="3" />
+          <Property Name="DateMark" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Marker" Type="Int32" />
+          <Property Name="Updator" Type="Int32" />
+          <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+          <Property Name="Note" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Sort" Type="Int32" />
+          <Property Name="Task" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_MemberHis" FromRole="History" ToRole="Member" />
+          <NavigationProperty Name="Member1" Relationship="Self.FK_MemberMarkerHis" FromRole="History" ToRole="Member" />
+          <NavigationProperty Name="Member2" Relationship="Self.FK_MemberUpdatorHis" FromRole="History" ToRole="Member" />
+          <NavigationProperty Name="Skill" Relationship="Self.FK_SkillHis" FromRole="History" ToRole="Skill" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Dept" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Pos" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="DateEnter" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Removed" Type="Int32" Nullable="false" />
+          <Property Name="Pass" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Certifications" Relationship="Self.FK_MemberCer" FromRole="Member" ToRole="Certification" />
+          <NavigationProperty Name="Certifications1" Relationship="Self.FK_MemberMarker" FromRole="Member" ToRole="Certification" />
+          <NavigationProperty Name="Certifications2" Relationship="Self.FK_MemberUpdatorCer" FromRole="Member" ToRole="Certification" />
+          <NavigationProperty Name="Histories" Relationship="Self.FK_MemberHis" FromRole="Member" ToRole="History" />
+          <NavigationProperty Name="Histories1" Relationship="Self.FK_MemberMarkerHis" FromRole="Member" ToRole="History" />
+          <NavigationProperty Name="Histories2" Relationship="Self.FK_MemberUpdatorHis" FromRole="Member" ToRole="History" />
+          <NavigationProperty Name="Skills" Relationship="Self.FK_MemberCreater" FromRole="Member" ToRole="Skill" />
+          <NavigationProperty Name="Skills1" Relationship="Self.FK_MemberUpdator" FromRole="Member" ToRole="Skill" />
+          <NavigationProperty Name="Role_Member" Relationship="Self.FK_RoleMember" FromRole="Member" ToRole="Role_Member" />
+        </EntityType>
+        <EntityType Name="Role_Member">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Members" Relationship="Self.FK_RoleMember" FromRole="Role_Member" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="Skill">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Dept" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Creator" Type="Int32" Nullable="false" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Detail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+          <Property Name="Updator" Type="Int32" />
+          <Property Name="Removed" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Certifications" Relationship="Self.FK_SkillCer" FromRole="Skill" ToRole="Certification" />
+          <NavigationProperty Name="Histories" Relationship="Self.FK_SkillHis" FromRole="Skill" ToRole="History" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_MemberCreater" FromRole="Skill" ToRole="Member" />
+          <NavigationProperty Name="Member1" Relationship="Self.FK_MemberUpdator" FromRole="Skill" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_MemberCer">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Certification" Type="Self.Certification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certification">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberMarker">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Certification" Type="Self.Certification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certification">
+              <PropertyRef Name="Marker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberUpdatorCer">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Certification" Type="Self.Certification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certification">
+              <PropertyRef Name="Updator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SkillCer">
+          <End Role="Skill" Type="Self.Skill" Multiplicity="1" />
+          <End Role="Certification" Type="Self.Certification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Skill">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certification">
+              <PropertyRef Name="SkillID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberHis">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="History" Type="Self.History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberMarkerHis">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="History" Type="Self.History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="Marker" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberUpdatorHis">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="History" Type="Self.History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="Updator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SkillHis">
+          <End Role="Skill" Type="Self.Skill" Multiplicity="1" />
+          <End Role="History" Type="Self.History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Skill">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="SkillID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberCreater">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Skill" Type="Self.Skill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Skill">
+              <PropertyRef Name="Creator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberUpdator">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Skill" Type="Self.Skill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Skill">
+              <PropertyRef Name="Updator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleMember">
+          <End Role="Role_Member" Type="Self.Role_Member" Multiplicity="0..1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role_Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="UMC_SKILLEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Certifications" EntityType="Self.Certification" />
+          <EntitySet Name="Histories" EntityType="Self.History" />
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="Role_Member" EntityType="Self.Role_Member" />
+          <EntitySet Name="Skills" EntityType="Self.Skill" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_MemberCer" Association="Self.FK_MemberCer">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Certification" EntitySet="Certifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberMarker" Association="Self.FK_MemberMarker">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Certification" EntitySet="Certifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberUpdatorCer" Association="Self.FK_MemberUpdatorCer">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Certification" EntitySet="Certifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SkillCer" Association="Self.FK_SkillCer">
+            <End Role="Skill" EntitySet="Skills" />
+            <End Role="Certification" EntitySet="Certifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberHis" Association="Self.FK_MemberHis">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="History" EntitySet="Histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberMarkerHis" Association="Self.FK_MemberMarkerHis">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="History" EntitySet="Histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberUpdatorHis" Association="Self.FK_MemberUpdatorHis">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="History" EntitySet="Histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SkillHis" Association="Self.FK_SkillHis">
+            <End Role="Skill" EntitySet="Skills" />
+            <End Role="History" EntitySet="Histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberCreater" Association="Self.FK_MemberCreater">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Skill" EntitySet="Skills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberUpdator" Association="Self.FK_MemberUpdator">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Skill" EntitySet="Skills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleMember" Association="Self.FK_RoleMember">
+            <End Role="Role_Member" EntitySet="Role_Member" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="UMC_SKILLModelStoreContainer" CdmEntityContainer="UMC_SKILLEntities">
+          <EntitySetMapping Name="Certifications">
+            <EntityTypeMapping TypeName="UMC_SKILLModel.Certification">
+              <MappingFragment StoreEntitySet="Certification">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="SkillID" ColumnName="SkillID" />
+                <ScalarProperty Name="Mark" ColumnName="Mark" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="DateComplete" ColumnName="DateComplete" />
+                <ScalarProperty Name="DateMark" ColumnName="DateMark" />
+                <ScalarProperty Name="Marker" ColumnName="Marker" />
+                <ScalarProperty Name="Updator" ColumnName="Updator" />
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="Task" ColumnName="Task" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Histories">
+            <EntityTypeMapping TypeName="UMC_SKILLModel.History">
+              <MappingFragment StoreEntitySet="History">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="SkillID" ColumnName="SkillID" />
+                <ScalarProperty Name="Mark" ColumnName="Mark" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="DateComplete" ColumnName="DateComplete" />
+                <ScalarProperty Name="DateMark" ColumnName="DateMark" />
+                <ScalarProperty Name="Marker" ColumnName="Marker" />
+                <ScalarProperty Name="Updator" ColumnName="Updator" />
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Sort" ColumnName="Sort" />
+                <ScalarProperty Name="Task" ColumnName="Task" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="UMC_SKILLModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="Pos" ColumnName="Pos" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="DateEnter" ColumnName="DateEnter" />
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="Pass" ColumnName="Pass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role_Member">
+            <EntityTypeMapping TypeName="UMC_SKILLModel.Role_Member">
+              <MappingFragment StoreEntitySet="Role_Member">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Skills">
+            <EntityTypeMapping TypeName="UMC_SKILLModel.Skill">
+              <MappingFragment StoreEntitySet="Skill">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="Creator" ColumnName="Creator" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="Updator" ColumnName="Updator" />
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="UMC_SKILLModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
