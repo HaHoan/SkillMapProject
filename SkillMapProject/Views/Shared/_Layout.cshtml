@@ -13,27 +13,30 @@
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/css/common.css" rel="stylesheet" />
 </head>
-<body>
+<body class="bg">
     <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div class="container-fluid mr-5">
             <div class="navbar-header">
-               <div class="row">
-                   <div class="col-2">
-                       <img src="~/Resources/logo.png" />
-                   </div>
-                   <div class="col-10">
-                       <h2>CERTIFICATE AND SKILL MAP</h2>
-                   </div>
-               </div>
+                <div class="row">
+                    <div class="col-2">
+                        <img src="~/Resources/logo.png" />
+                    </div>
+                    <div class="col-10">
+                        <h2 class="text-white">CERTIFICATE AND SKILL MAP</h2>
+                    </div>
+                </div>
             </div>
-            <ul class="nav justify-content-end">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="@Url.Action("Index", "Home")"> <i class="fas fa-home"></i> Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="@Url.Action("ListSkill", "Home")"><i class="fas fa-graduation-cap"></i> Kĩ năng/Chứng chỉ</a>
+                </li>
+                
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-black-50" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bars"></i></a>
+                    <a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i> Tài khoản</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Trang chủ</a>
-                        <a class="dropdown-item" href="#">Thêm Certificate</a>
-                        <a class="dropdown-item" href="#">Thêm Certificate cho nhân viên</a>
-                        <div class="dropdown-divider"></div>
                         @if (user != null)
                         {
                             <a class="dropdown-item" href="#">@(user.Name)</a>
@@ -47,10 +50,13 @@
                     </div>
                 </li>
             </ul>
+            <ul class="nav">
+              
+            </ul>
         </div>
     </div>
-    <div class="container-fluid body-content p-5">
-       
+    <div class="container-fluid body-content p-5 bg-white">
+
         @RenderBody()
         <hr />
         <footer>
@@ -61,5 +67,6 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/custom/common.js"></script>
 </body>
 </html>

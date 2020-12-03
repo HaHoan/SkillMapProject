@@ -1,0 +1,71 @@
+﻿@model SkillMapProject.Models.Skill
+@{
+    ViewBag.Title = "AddSkill";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DANH SÁCH KĨ NĂNG</h2>
+
+<div class="mt-5">
+    <button type="button" class="btn btn-success" onclick="AddClick()">
+        <i class="fas fa-plus"></i> Thêm mới
+    </button>
+</div>
+<div class="loading middle">
+    <img src="~/Resources/loading.gif" />
+</div>
+<div id="list_skill"></div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalAddSkill" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Thêm kĩ năng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body ">
+                <p id="Error"></p>
+                <div class="form-group">
+                    <input type="hidden" id="ID" name="ID" />
+                    <input type="text" id="Name" name="Name" class="form-control mt-3 col-md-12" placeholder="Tên kĩ năng" required />
+                    <input type="text" id="Dept" name="Dept" class="form-control mt-3 col-md-12" placeholder="Thuộc phòng ban" required />
+                    <textarea id="Detail" name="Detail" class="form-control mt-3 col-md-12" rows="4" cols="50" placeholder="Mô tả"></textarea>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-success" onclick="AddSkill()">Lưu lại</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--Modal Confirm-->
+<div class="modal" tabindex="-1" role="dialog" id="alertWarning">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-exclamation-triangle text-warning"></i><span class="modal-title font-weight-bold ml-3"> CONFIRM</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa kĩ năng này</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                <button type="button" class="btn btn-danger" onclick="DeleteSkill()">YES</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/custom/skill.js"></script>
+}

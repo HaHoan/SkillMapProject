@@ -72,8 +72,8 @@
           <Property Name="Creator" Type="int" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" Nullable="false" />
           <Property Name="Detail" Type="nvarchar" MaxLength="100" />
-          <Property Name="UpdateTime" Type="datetime" />
-          <Property Name="Updator" Type="int" />
+          <Property Name="UpdateTime" Type="datetime" Nullable="false" />
+          <Property Name="Updator" Type="int" Nullable="false" />
           <Property Name="Removed" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -147,7 +147,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MemberUpdator">
-          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Skill" Type="Self.Skill" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Member">
@@ -360,8 +360,8 @@
           <Property Name="Creator" Type="Int32" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Detail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="UpdateTime" Type="DateTime" Precision="3" />
-          <Property Name="Updator" Type="Int32" />
+          <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Updator" Type="Int32" Nullable="false" />
           <Property Name="Removed" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Certifications" Relationship="Self.FK_SkillCer" FromRole="Skill" ToRole="Certification" />
           <NavigationProperty Name="Histories" Relationship="Self.FK_SkillHis" FromRole="Skill" ToRole="History" />
@@ -487,7 +487,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MemberUpdator">
-          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Skill" Type="Self.Skill" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Member">

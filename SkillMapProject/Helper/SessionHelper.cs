@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkillMapProject.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -25,6 +26,10 @@ namespace SkillMapProject.Helper
         public static void Remove(string key)
         {
             HttpContext.Current.Session.Remove(key);
+        }
+        public static bool IsLogIn()
+        {
+            return Get<Member>(Constant.SESSION_LOGIN) != null;
         }
     }
 }

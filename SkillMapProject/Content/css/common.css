@@ -12,3 +12,16 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.bg {
+    background-color: #1b5e20;
+}
+.middle {
+    transition: .5s ease;
+    opacity: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
