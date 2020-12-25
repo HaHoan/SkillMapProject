@@ -4,24 +4,26 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="829531c0c97f498f8bd977938b3efc8b" Name="Diagram1">
-        <EntityTypeShape EntityType="UMC_SKILLModel.Certification" Width="1.5" PointX="7.5" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="UMC_SKILLModel.History" Width="1.5" PointX="10.5" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="UMC_SKILLModel.Member" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="UMC_SKILLModel.Role_Member" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="UMC_SKILLModel.Skill" Width="1.5" PointX="5.25" PointY="16.625" IsExpanded="true" />
+      <Diagram DiagramId="0983128b8dd145e48acbe999c6cd4d15" Name="Diagram1">
+        <EntityTypeShape EntityType="UMC_SKILLModel.Member" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UMC_SKILLModel.Role_Member" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UMC_SKILLModel.Skill" Width="1.5" PointX="5.25" PointY="21.375" IsExpanded="true" />
         <EntityTypeShape EntityType="UMC_SKILLModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <AssociationConnector Association="UMC_SKILLModel.FK_MemberCer" ManuallyRouted="false" />
-        <AssociationConnector Association="UMC_SKILLModel.FK_MemberMarker" ManuallyRouted="false" />
-        <AssociationConnector Association="UMC_SKILLModel.FK_MemberUpdatorCer" ManuallyRouted="false" />
-        <AssociationConnector Association="UMC_SKILLModel.FK_SkillCer" ManuallyRouted="false" />
-        <AssociationConnector Association="UMC_SKILLModel.FK_MemberHis" ManuallyRouted="false" />
-        <AssociationConnector Association="UMC_SKILLModel.FK_MemberMarkerHis" ManuallyRouted="false" />
-        <AssociationConnector Association="UMC_SKILLModel.FK_MemberUpdatorHis" ManuallyRouted="false" />
-        <AssociationConnector Association="UMC_SKILLModel.FK_SkillHis" ManuallyRouted="false" />
         <AssociationConnector Association="UMC_SKILLModel.FK_MemberCreater" ManuallyRouted="false" />
         <AssociationConnector Association="UMC_SKILLModel.FK_MemberUpdator" ManuallyRouted="false" />
         <AssociationConnector Association="UMC_SKILLModel.FK_RoleMember" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="UMC_SKILLModel.Certification" Width="1.5" PointX="7.5" PointY="13.375" />
+        <EntityTypeShape EntityType="UMC_SKILLModel.History" Width="1.5" PointX="10.5" PointY="13.375" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_MemberCer" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_MemberMarker" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_MemberUpdatorCer" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_SkillCer" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_MemberHis" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_MemberMarkerHis" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_MemberUpdatorHis" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_SkillHis" />
+        <EntityTypeShape EntityType="UMC_SKILLModel.SkillLevel" Width="1.5" PointX="7.5" PointY="22.375" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_SkillLevel" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,0 +1,65 @@
+﻿@using SkillMapProject.Models
+@model List<SkillMapProject.Models.CertificateByUser>
+
+@{
+    var i = 1;
+    var user = (Member)HttpContext.Current.Session[Constant.SESSION_LOGIN];
+    foreach (var cer in Model)
+    {
+        <tr>
+            <th scope="row">@i</th>
+
+            @* Nếu là admin của phòng hoặc là member của EDU *@
+            @*@if ((user.Dept == cer.Dept && user.RoleID == Constant.ADMIN) ||
+                (Constant.SPECIAL_DEPT.Contains(user.Dept) && Constant.SPECIAL_DEPT.Contains(cer.Dept)))
+                            {
+                                <td><a href="@Url.Action("AddSkillForStaff", "Home", new { ID = cer.userID })">@cer.Code</a></td>
+                            }
+                            else
+                            {
+                                <td><a href="@Url.Action("ViewSkillForStaff", "Home", new { ID = cer.userID })">@cer.Code</a></td>
+                            }*@
+            <td><a href="@Url.Action("ViewSkillForStaff", "Home", new { ID = cer.userID })">@cer.Code</a></td>
+            <td>@cer.FullName</td>
+            @foreach (var skill in cer.dics.Keys)
+            {
+                var cerInDics = new Certification();
+                cer.dics.TryGetValue(skill, out cerInDics);
+                if (cerInDics != null)
+                {
+                    <td class="p-0">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="font-size:13px;">Cấp độ</th>
+                                    <th style="font-size:13px;">Ngày Cấp</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@cerInDics.LevelCurrent</td>
+                                    <td>@cerInDics.CurrentGrantDateStr</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </td>
+                }
+                else
+                {
+                    <td>@("")</td>
+                }
+
+            }
+
+            <td>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddSkillForStaff" onclick="addSkillForStaff(@cer.userID)">
+                    <i class="fas fa-plus"></i> Thêm
+                </button>
+            </td>
+        </tr>
+        i++;
+    }
+
+}
+

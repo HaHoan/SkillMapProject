@@ -1,0 +1,38 @@
+﻿@model List<SkillMapProject.Models.History>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">Skill</th>
+            <th scope="col">Phòng ban</th>
+            <th scope="col">Điểm</th>
+            <th scope="col">Pass/Failed</th>
+            <th scope="col">Ngày hoàn thành</th>
+            <th scope="col">Người chấm điểm</th>
+            <th scope="col">Ngày chấm điểm</th>
+            <th scope="col">Người cập nhật</th>
+            <th scope="col">Ngày cập nhật</th>
+            <th scope="col">Ghi chú</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var i = 1;
+            foreach (var cer in Model)
+            {
+                <tr>
+                    <td>@cer.Skill.Name</td>
+                    <td>@cer.Skill.Dept</td>
+                    <td>@cer.Mark</td>
+                    <td>@cer.Result</td>
+                    <td>@cer.DateComplete.ToString("yyyy/MM/dd")</td>
+                    <td>@cer.Member1.Name</td>
+                    <td>@cer.DateMark.ToString("yyyy/MM/dd")</td>
+                    <td>@cer.Member2.Name</td>
+                    <td>@cer.UpdateTime.ToString("yyyy/MM/dd")</td>
+                    <td>@cer.Note</td>
+                </tr>
+                i++;
+            }
+        }
+    </tbody>
+</table>

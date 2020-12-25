@@ -17,14 +17,14 @@ namespace SkillMapProject.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Member()
         {
+            this.Skills = new HashSet<Skill>();
+            this.Skills1 = new HashSet<Skill>();
             this.Certifications = new HashSet<Certification>();
             this.Certifications1 = new HashSet<Certification>();
             this.Certifications2 = new HashSet<Certification>();
             this.Histories = new HashSet<History>();
             this.Histories1 = new HashSet<History>();
             this.Histories2 = new HashSet<History>();
-            this.Skills = new HashSet<Skill>();
-            this.Skills1 = new HashSet<Skill>();
         }
     
         public int ID { get; set; }
@@ -38,6 +38,11 @@ namespace SkillMapProject.Models
         public string Pass { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Skill> Skills { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Skill> Skills1 { get; set; }
+        public virtual Role_Member Role_Member { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Certification> Certifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Certification> Certifications1 { get; set; }
@@ -49,10 +54,5 @@ namespace SkillMapProject.Models
         public virtual ICollection<History> Histories1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<History> Histories2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Skill> Skills { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Skill> Skills1 { get; set; }
-        public virtual Role_Member Role_Member { get; set; }
     }
 }

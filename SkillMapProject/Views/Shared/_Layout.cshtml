@@ -11,6 +11,8 @@
     <link href="~/Content/fontawesome-free/css/all.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("heads", required: false)
+
     <link href="~/Content/css/common.css" rel="stylesheet" />
 </head>
 <body class="bg">
@@ -31,7 +33,7 @@
                     <a class="nav-link text-white" href="@Url.Action("Index", "Home")"> <i class="fas fa-home"></i> Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="@Url.Action("ListSkill", "Home")"><i class="fas fa-graduation-cap"></i> Kĩ năng/Chứng chỉ</a>
+                    <a class="nav-link text-white" href="@Url.Action("ListSkill", "Skill")"><i class="fas fa-graduation-cap"></i> Kĩ năng</a>
                 </li>
                 
                 <li class="nav-item dropdown">
@@ -55,7 +57,7 @@
             </ul>
         </div>
     </div>
-    <div class="container-fluid body-content p-5 bg-white">
+    <div class="p-5 bg-white scrollable">
 
         @RenderBody()
         <hr />

@@ -1,12 +1,15 @@
-﻿@model SkillMapProject.Models.Skill
+﻿@using SkillMapProject.Models
+@model SkillMapProject.Models.Skill
 @{
     ViewBag.Title = "AddSkill";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = (Member)HttpContext.Current.Session[Constant.SESSION_LOGIN];
 }
 
 <h2>DANH SÁCH KĨ NĂNG</h2>
 
 <div class="mt-5">
+
     <button type="button" class="btn btn-success" onclick="AddClick()">
         <i class="fas fa-plus"></i> Thêm mới
     </button>
@@ -30,9 +33,37 @@
                 <p id="Error"></p>
                 <div class="form-group">
                     <input type="hidden" id="ID" name="ID" />
-                    <input type="text" id="Name" name="Name" class="form-control mt-3 col-md-12" placeholder="Tên kĩ năng" required />
-                    <input type="text" id="Dept" name="Dept" class="form-control mt-3 col-md-12" placeholder="Thuộc phòng ban" required />
-                    <textarea id="Detail" name="Detail" class="form-control mt-3 col-md-12" rows="4" cols="50" placeholder="Mô tả"></textarea>
+                    <label class="font-weight-bold">Tên kĩ năng</label>
+                    <input type="text" id="Name" name="Name" class="form-control mt-2 col-md-12" placeholder="Nhập tên kĩ năng" required />
+                    <br />
+                    <p class="font-weight-bold">Thuộc phòng ban <span>@(user.Dept)</span></p>
+                    <label class="font-weight-bold">Cấp độ</label>
+                    <div class="row">
+                        <div class="col-3">
+                            Cấp độ I
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control" id="level-1"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            Cấp độ II
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control mt-2" id="level-2"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            Cấp độ III
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control mt-2" id="level-3"/>
+                        </div>
+                    </div>
+                    <label class="font-weight-bold">Mô tả</label>
+                    <textarea id="Detail" name="Detail" class="form-control mt-2 col-md-12" rows="4" cols="50" placeholder="Nhập mô tả"></textarea>
                 </div>
 
             </div>

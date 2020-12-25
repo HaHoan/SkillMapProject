@@ -1,0 +1,60 @@
+﻿@using SkillMapProject.Models
+@model List<SkillMapProject.Models.Skill>
+
+@{
+    var user = (Member)HttpContext.Current.Session[Constant.SESSION_LOGIN];
+}
+<table class="table table-border mt-2">
+    <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Tên kĩ năng</th>
+            <th scope="col">Phòng ban</th>
+            <th scope="col">Mô tả</th>
+            <th scope="col">Người tạo</th>
+            <th scope="col">Ngày tạo</th>
+            <th scope="col">Ngày sửa cuối cùng</th>
+            <th scope="col">Người sửa cuối cùng</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var i = 1;
+            foreach (var skill in Model)
+            {
+                <tr>
+                    <th scope="row">@i</th>
+                    <td class="nametb">@skill.Name</td>
+                    <td class="depttb">@skill.Dept</td>
+                    <td class="detailtb">@skill.Detail</td>
+                    <td>@skill.Member.Name</td>
+                    <td>@skill.CreateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@skill.Member1.Name</td>
+                    <td>@skill.UpdateTime.ToString("yyyy-MM-dd HH:mm")</td>
+
+                    <td>
+                        @{
+                            if (skill.Dept == user.Dept && user.RoleID == Constant.ADMIN)
+                            {
+                                var levels = "";
+                                foreach (var level in skill.SkillLevels)
+                                {
+                                    levels += level.Name + ",";
+                                }
+                                <button class="btn btn-warning text-white mr-3" onclick="EditClick('@skill.ID','@skill.Name','@skill.Detail','@levels')" name="@(skill.ID)">
+                                                <i class="fas fa-edit"></i>
+                                            </button><button class="btn btn-danger text-white" onclick="DeleteClick(this)" name="@(skill.ID)"><i class="fas fa-trash-alt"></i></button>
+                                        }
+
+                        }
+
+                    </td>
+                </tr>
+                i++;
+                        }
+        }
+
+    </tbody>
+</table>
+

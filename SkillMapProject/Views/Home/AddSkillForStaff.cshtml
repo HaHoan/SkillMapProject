@@ -1,0 +1,68 @@
+﻿@using SkillMapProject.Models
+@model SkillMapProject.Models.Certification
+@{
+    ViewBag.Title = "AddSkillForStaff";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="add-certificate col-5">
+        @using (Html.BeginForm("AddSkillForStaff", "Home", FormMethod.Post))
+        {
+        <div class="form-group pl-5 col-md-12">
+            @Html.AntiForgeryToken()
+            @Html.ValidationMessage("Error", new { @class = "text-danger" })
+            <br />
+            <label class="font-weight-bold mt-3">Mã nhân viên:</label>
+            @Html.TextBoxFor(m => m.Code, new { @class = "form-control mt-1", placeholder = "Nhập mã nhân viên", @required = "required" })
+            @if (ViewBag.Skills != null)
+            {
+                <label class="font-weight-bold mt-3">Bạn đang tạo chứng chỉ hay kĩ năng:</label>
+                <br />
+                @Html.RadioButtonFor(m => m.TypeSkill, "Certificate", new { Checked = "checked" })<span class="ml-1">Chứng chỉ</span>
+                @Html.RadioButtonFor(m => m.TypeSkill, "Skill", new { @class = "ml-3" })<span class="ml-1">Kĩ năng</span>
+                @Html.DropDownListFor(m => m.SkillID, new SelectList(ViewBag.Skills, "ID", "Name"), new { @class = "form-control col-md-10 mt-2" });
+            }
+
+            <label class="font-weight-bold mt-3">Chấm điểm: <span class="font-italic small">(Chấm theo thang điểm 10 hoặc level 1,2,3,...)</span></label>
+            @Html.TextBoxFor(m => m.Mark, new { @class = "form-control mt-1", placeholder = "Nhập số điểm / level", @required = "required" })
+            <label class="font-weight-bold mt-3 mr-3">Kết quả:</label>
+            @Html.RadioButtonFor(m => m.Result, "PASS", new { Checked = "checked" })<span class="ml-1">PASS</span>
+            @Html.RadioButtonFor(m => m.Result, "FAIL", new { @class = "ml-3" })<span class="ml-1">FAIL</span>
+            <br />
+            <label class="font-weight-bold mt-3 mr-3">Ngày hoàn thành:</label>
+            @Html.TextBoxFor(m => m.NgayThiThucTe, new { @type = "date", @Value = DateTime.Now.ToString("yyyy-MM-dd"), @class = "form-control mt-1", placeholder = "Ngày hoàn thành", @required = "required" })
+            <label class="font-weight-bold mt-3 mr-3">Ngày chấm điểm:</label>
+            @Html.TextBoxFor(m => m.NguoiChamDiem, new { @type = "date", @Value = DateTime.Now.ToString("yyyy-MM-dd"), @class = "form-control mt-1", placeholder = "Ngày chấm điểm", @required = "required" })
+            @Html.TextAreaFor(m => m.Note, new { @class = "form-control col-md-10 mt-3", placeholder = "Ghi chú" })
+            @Html.HiddenFor(m => m.ID)
+            <br />
+            @if (Model != null && Model.ID != 0)
+            {
+                <input type="submit" value="Sửa" class="btn btn-success mt-3" id="add_cer" />
+                <hr />
+                @Html.Partial("~/Views/Home/_CommonInfo.cshtml", Model);
+            }
+            else
+            {
+                <input type="submit" value="Thêm" class="btn btn-success mt-3" id="add_cer" />
+            }
+
+        </div>
+        }
+
+    </div>
+    @if (ViewBag.History != null)
+    {
+        //<div class="bg-success filter"></div>
+        <div class="col-6">
+            <h4> TRA CỨU</h4>
+            <br />
+            @Html.Partial("~/Views/Home/_HistoryCertificate.cshtml", (List<History>)ViewBag.History)
+        </div>
+    }
+
+</div>
+@section scripts{
+    <script src="~/Scripts/custom/home.js"></script>
+}

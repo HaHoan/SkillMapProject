@@ -19,6 +19,7 @@ namespace SkillMapProject.Models
         {
             this.Certifications = new HashSet<Certification>();
             this.Histories = new HashSet<History>();
+            this.SkillLevels = new HashSet<SkillLevel>();
         }
     
         public int ID { get; set; }
@@ -31,11 +32,13 @@ namespace SkillMapProject.Models
         public int Updator { get; set; }
         public int Removed { get; set; }
     
+        public virtual Member Member { get; set; }
+        public virtual Member Member1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Certification> Certifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<History> Histories { get; set; }
-        public virtual Member Member { get; set; }
-        public virtual Member Member1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SkillLevel> SkillLevels { get; set; }
     }
 }

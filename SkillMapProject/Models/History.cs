@@ -19,14 +19,23 @@ namespace SkillMapProject.Models
         public int SkillID { get; set; }
         public string Mark { get; set; }
         public string Result { get; set; }
-        public Nullable<System.DateTime> DateComplete { get; set; }
-        public System.DateTime DateMark { get; set; }
-        public Nullable<int> Marker { get; set; }
-        public Nullable<int> Updator { get; set; }
-        public Nullable<System.DateTime> UpdateTime { get; set; }
+        public Nullable<System.DateTime> NgayThiXacNhan { get; set; }
+        public Nullable<System.DateTime> NgayThiThucTe { get; set; }
+        public Nullable<int> NguoiChamDiem { get; set; }
+        public int Updator { get; set; }
+        public System.DateTime UpdateTime { get; set; }
         public string Note { get; set; }
         public Nullable<int> Sort { get; set; }
         public string Task { get; set; }
+        public string TypeSkill { get; set; }
+        public string Code { get; set; }
+        public string CapDo { get; set; }
+        public string NangCap { get; set; }
+        public Nullable<System.DateTime> NgayNangCap { get; set; }
+        public string CNNguoiDaoTao { get; set; }
+        public Nullable<System.DateTime> NgayCNNguoiDaoTao { get; set; }
+        public Nullable<int> SoLanThi { get; set; }
+        public Nullable<System.DateTime> NgayCap { get; set; }
     
         public virtual Member Member { get; set; }
         public virtual Member Member1 { get; set; }

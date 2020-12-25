@@ -11,14 +11,22 @@ namespace SkillMapProject.Helper
     {
         public static string ConvertViewToString(string viewName, object model, ViewDataDictionary ViewData, ControllerContext ControllerContext)
         {
-            ViewData.Model = model;
-            using (StringWriter writer = new StringWriter())
+            try
             {
-                ViewEngineResult vResult = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
-                ViewContext vContext = new ViewContext(ControllerContext, vResult.View, ViewData, new TempDataDictionary(), writer);
-                vResult.View.Render(vContext, writer);
-                return writer.ToString();
+                ViewData.Model = model;
+                using (StringWriter writer = new StringWriter())
+                {
+                    ViewEngineResult vResult = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+                    ViewContext vContext = new ViewContext(ControllerContext, vResult.View, ViewData, new TempDataDictionary(), writer);
+                    vResult.View.Render(vContext, writer);
+                    return writer.ToString();
+                }
             }
+            catch (Exception)
+            {
+                return "";
+            }
+           
         }
     }
 }

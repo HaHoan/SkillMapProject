@@ -1,35 +1,125 @@
-﻿@{
+﻿@using SkillMapProject.Models
+
+@{
     ViewBag.Title = "Home Page";
 }
-<table class="table table-bordered mt-5">
-    <thead>
-        <tr>
-            <th scope="col">STT</th>
-            <th scope="col">Nhân viên</th>
-            <th scope="col">Skill</th>
-            <th scope="col">Phòng ban</th>
-            <th scope="col">Điểm</th>
-            <th scope="col">Pass/Failed</th>
-            <th scope="col">Ngày hoàn thành</th>
-            <th scope="col">Người chấm điểm</th>
-            <th scope="col">Ngày chấm điểm</th>
-            <th scope="col">Người cập nhật</th>
-            <th scope="col">Ghi chú</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>MO</td>
-            <td>MO</td>
-            <td>MO</td>
-            <td>MO</td>
-            <td>MO</td>
-            <td>MO</td>
-            <td>MO</td>
-            <td>MO</td>
-        </tr>
-    </tbody>
-</table>
+@section heads
+{
+    <link href="@Url.Content("~/Content/css/main.css")"
+          rel="stylesheet" type="text/css" />
+}
+<div class="loading middle">
+    <img src="~/Resources/loading.gif" />
+</div>
+<div>
+    <table class="table table-main table-bordered mt-2">
+        <thead>
+            <tr>
+                <th scope="col" style="width:50px;">STT</th>
+                <th scope="col" style="width:100px;">Code</th>
+                <th scope="col" style="width:150px;">Nhân viên</th>
+                @foreach (var skill in ViewBag.SkillLevels)
+                {
+                    <th style="width:200px;">@skill.Name</th>
+                }
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="list_skill_of_staff" class="scrollable"></tbody>
+    </table>
+</div>
+
+<!-- Modal Add Skill For Staff -->
+<div class="modal fade" id="modalAddSkillForStaff" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Thêm kĩ năng cho nhân viên</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body ">
+                <p id="Error"></p>
+                <div class="form-group">
+
+                    <div class="row">
+                        <div class="col-3">Kĩ năng</div>
+                        <div class="col-9">
+                            <select class="form-control" id="skill_selected">
+                                @if (ViewBag.SkillLevels != null)
+                                {
+                                    foreach (var skill in ViewBag.SkillLevels)
+                                    {
+                                        var levels = "";
+                                        foreach (var level in skill.SkillLevels)
+                                        {
+                                            levels += level.Name + ",";
+
+                                        }
+
+                                        <option value="@levels" name="@skill.ID">@skill.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-3">
+                            Cấp độ
+                        </div>
+                        <div class="col-9">
+                            <select class="form-control" id="capdo_selected"></select>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-3">Chứng chỉ</div>
+                        <div class="col-9">
+                            <select class="form-control" id="levels_selected"></select>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-3">Khách hàng</div>
+                        <div class="col-9">
+                            <select class="form-control">
+                                <option>Brother</option>
+                                <option>Kyo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-3">
+                            Ngày Cấp
+                        </div>
+                        <div class="col-9">
+                            <input type="date" class="form-control date" id="NgayCap" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-3">
+                            Ngày Thi Xác nhận
+                        </div>
+                        <div class="col-9">
+                            <input type="date" value="" class="form-control date" id="NgayThiXacNhan" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-success" onclick="submitSkillForStaff()">Lưu lại</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/custom/home.js"></script>
+}

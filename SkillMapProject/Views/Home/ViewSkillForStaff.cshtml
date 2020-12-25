@@ -1,0 +1,181 @@
+﻿@using SkillMapProject.Models
+@model SkillMapProject.Models.CertificateByUser
+@{
+    ViewBag.Title = "AddSkillForStaff";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section heads
+{
+    <link href="@Url.Content("~/Content/css/main.css")"
+          rel="stylesheet" type="text/css" />
+}
+<div class="row">
+    <div class="col">
+        <div class="row">
+            <div class="col-3"><label class="font-weight-bold">Mã NV</label></div>
+            <div class="col-9">@Model.Code</div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="row">
+            <div class="col-3"><label class="font-weight-bold">Họ tên</label></div>
+            <div class="col-9">@Model.FullName</div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="row">
+            <div class="col-3"><label class="font-weight-bold">Phòng ban</label></div>
+            <div class="col-9">@Model.Dept</div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="row">
+            <div class="col-3"><label class="font-weight-bold">Ngày Vào:</label></div>
+            <div class="col-9">@Model.DateEnter</div>
+        </div>
+    </div>
+
+</div>
+<hr />
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Kĩ năng</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Chứng chỉ</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Môn học</a>
+    </li>
+</ul><!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane active" id="tabs-1" role="tabpanel">
+        <br />
+        <table class="table-bordered table table-detail">
+            <thead>
+                <tr>
+                    <th>Kĩ năng</th>
+                    <th>Cấp độ hiện tại</th>
+                    <th>Cấp độ I</th>
+                    <th>Cấp độ II</th>
+                    <th>Cấp độ III</th>
+                </tr>
+
+            </thead>
+            <tbody class="scrollable">
+                @foreach (var cer in Model.ListSkills)
+                {
+                    <tr>
+                        <td>@cer.Skill.Name</td>
+                        <td class="p-0">
+                            @*Cấp độ hiện tại*@
+                            <table class="table-detail">
+                                <thead>
+                                    <tr>
+                                        <th>Cấp độ</th>
+                                        <th>Ngày cấp hiện tại</th>
+                                        <th>Ngày thi xác nhận</th>
+                                        <th>Ngày thi thực tế</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>@cer.LevelCurrent</td>
+                                        <td>@cer.CurrentGrantDateStr</td>
+                                        <td>@cer.NgayThiXacNhanStr</td>
+                                        <td>@cer.NgayThiXacNhanStr</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td class="p-0">
+                            @*Cấp độ I*@
+                            @if (!string.IsNullOrEmpty(cer.CapDo))
+                            {
+                                <table class="table-detail">
+                                    <thead>
+                                        <tr>
+                                            <th>Cấp độ</th>
+                                            <th>Ngày cấp</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>@cer.CapDo</td>
+                                            <td>@cer.CurrentGrantDateStr</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                @(" ");
+                            }
+
+                        </td>
+                        <td class="p-0">
+                            @*Cấp độ II*@
+                            @if (!string.IsNullOrEmpty(cer.NangCap))
+                            {
+                                <table class="table-detail">
+                                    <thead>
+                                        <tr>
+                                            <th>Cấp độ</th>
+                                            <th>Ngày cấp</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>@cer.NangCap</td>
+                                            <td>@cer.NgayNangCapStr</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            }
+
+                        </td>
+                        <td class="p-0">
+                            @*Cấp độ III*@
+                            @if (!string.IsNullOrEmpty(cer.CNNguoiDaoTao))
+                            {
+                                <table class="table-detail">
+                                    <thead>
+                                        <tr>
+                                            <th>Cấp độ</th>
+                                            <th>Ngày cấp</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>@cer.CNNguoiDaoTao</td>
+                                            <td>@cer.NgayCNNguoiDaoTaoStr</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            }
+
+                        </td>
+                        <td>
+                            <button class="btn btn-warning text-white mr-3">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane" id="tabs-2" role="tabpanel">
+        <p>Second Panel</p>
+    </div>
+    <div class="tab-pane" id="tabs-3" role="tabpanel">
+        <p>Third Panel</p>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/custom/home.js"></script>
+}

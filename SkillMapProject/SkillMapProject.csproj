@@ -133,11 +133,14 @@
     <Compile Include="Constant.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\SkillController.cs" />
+    <Compile Include="Controllers\Utils.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\SessionHelper.cs" />
     <Compile Include="Helper\Utils.cs" />
+    <Compile Include="Models\CertificateByUser.cs" />
     <Compile Include="Models\Certification.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -169,6 +172,9 @@
     <Compile Include="Models\Skill.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SkillLevel.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -182,6 +188,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\common.css" />
+    <Content Include="Content\css\main.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -202,6 +209,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\custom\common.js" />
+    <Content Include="Scripts\custom\home.js" />
     <Content Include="Scripts\custom\skill.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
@@ -336,9 +344,13 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Login\Index.cshtml" />
-    <Content Include="Views\Home\AddCertificatesForStaff.cshtml" />
-    <Content Include="Views\Home\ListSkill.cshtml" />
-    <Content Include="Views\Home\_AllSkill.cshtml" />
+    <Content Include="Views\Skill\ListSkill.cshtml" />
+    <Content Include="Views\Skill\_AllSkill.cshtml" />
+    <Content Include="Views\Home\_AllSkillOfStaff.cshtml" />
+    <Content Include="Views\Home\AddSkillForStaff.cshtml" />
+    <Content Include="Views\Home\ViewSkillForStaff.cshtml" />
+    <Content Include="Views\Home\_CommonInfo.cshtml" />
+    <Content Include="Views\Home\_HistoryCertificate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

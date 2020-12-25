@@ -4,23 +4,26 @@
 
 function AddClick() {
     $("#Name").val("");
-    $("#Dept").val("");
     $("#Detail").val("");
     $("#ID").val("0");
     $("#modalTitle").html("Thêm kĩ năng");
+    for (var i = 1; i < 4; i++) {
+        $('#level-' + i).val('');
+    }
     $("#modalAddSkill").modal();
 }
-function EditClick(context) {
-    var ID = $(context).attr("name");
-    var name = $(context).parents("tr").find(".nametb").text();
-    var dept = $(context).parents("tr").find(".depttb").text();
-    var detail = $(context).parents("tr").find(".detailtb").text();
+function EditClick(ID, name, detail, levels) {
+    for (var i = 1; i < 4; i++) {
+        $('#level-' + i).val('');
+    }
     $("#Name").val(name);
-    $("#Dept").val(dept);
     $("#Detail").val(detail);
     $("#ID").val(ID);
     $("#modalTitle").html("Sửa kĩ năng");
-
+    var levelArr = levels.split(',');
+    levelArr.forEach(function (item, index) {
+        $('#level-' + (index + 1)).val(item);
+    });
     $("#modalAddSkill").modal();
 }
 
@@ -33,12 +36,15 @@ function DeleteClick(context) {
 function AddSkill() {
     var ID = $("#ID").val();
     var Name = $("#Name").val();
-    var Dept = $("#Dept").val();
     var Detail = $("#Detail").val();
+    var levelI = $('#level-1').val();
+    var levelII = $('#level-2').val();
+    var levelIII = $('#level-3').val();
+    var levels = levelI + ',' + levelII + ',' + levelIII;
     $.ajax({
-        url: "/Home/AddSkill",
+        url: "/Skill/AddSkill",
         type: "POST",
-        data: { ID: ID, Name: Name, Detail: Detail, Dept : Dept },
+        data: { ID: ID, Name: Name, Detail: Detail, levels : levels},
         success: function () {
             GetListskill();
         },
@@ -49,7 +55,7 @@ function AddSkill() {
 }
 function DeleteSkill() {
     $.ajax({
-        url: "/Home/DeleteSkill",
+        url: "/Skill/DeleteSkill",
         type:"POST",
         data: { ID: selected_skill },
         success: function () {
@@ -63,7 +69,7 @@ function DeleteSkill() {
 function GetListskill() {
     $(".loading").show();
     $.ajax({
-        url: "/Home/GetListSkill",
+        url: "/Skill/GetListSkill",
         success: function (response) {
             $('#list_skill').html(response.body);
             $(".loading").hide();
