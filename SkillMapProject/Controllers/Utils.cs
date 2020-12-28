@@ -23,5 +23,9 @@ namespace SkillMapProject.Controllers
             }
             return false;
         }
+        public static string ToDateString(this DateTime dateTime)
+        {
+            return dateTime.ToString("yyyy-MM-dd");
+        }
     }
 }

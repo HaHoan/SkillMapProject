@@ -347,10 +347,10 @@
     <Content Include="Views\Skill\ListSkill.cshtml" />
     <Content Include="Views\Skill\_AllSkill.cshtml" />
     <Content Include="Views\Home\_AllSkillOfStaff.cshtml" />
-    <Content Include="Views\Home\AddSkillForStaff.cshtml" />
     <Content Include="Views\Home\ViewSkillForStaff.cshtml" />
     <Content Include="Views\Home\_CommonInfo.cshtml" />
     <Content Include="Views\Home\_HistoryCertificate.cshtml" />
+    <Content Include="Views\Home\SuaChungChiChoNV.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -59,6 +59,20 @@ namespace SkillMapProject.Models
         public string TypeSkill { get; set; }
         public string Code { get; set; }
         public string CapDo { get; set; }
+        public string NgayCapStr
+        {
+            get
+            {
+                if (NgayCap is DateTime date)
+                {
+                    return date.ToDateString();
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
         public string NangCap { get; set; }
         public Nullable<System.DateTime> NgayNangCap { get; set; }
         public string NgayNangCapStr
@@ -67,7 +81,7 @@ namespace SkillMapProject.Models
             {
                 if (NgayNangCap is DateTime date)
                 {
-                    return date.ToShortDateString();
+                    return date.ToDateString();
                 }
                 else
                 {
@@ -83,7 +97,7 @@ namespace SkillMapProject.Models
             {
                 if (NgayCNNguoiDaoTao is DateTime date)
                 {
-                    return date.ToShortDateString();
+                    return date.ToDateString();
                 }
                 else
                 {

@@ -1,0 +1,116 @@
+﻿@using SkillMapProject.Models
+@model SkillMapProject.Models.Certification
+@{
+    ViewBag.Title = "SuaChungChiChoNV";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="add-certificate col">
+        @using (Html.BeginForm("SuaChungChiChoNV", "Home", FormMethod.Post))
+        {
+            <div>
+                @Html.AntiForgeryToken()
+                <br />
+                <div class="row">
+                    <div class="col">
+                        <label><span class="font-weight-bold mt-3">Mã nhân viên: </span>@Model.Code</label>
+                        @Html.HiddenFor(m => m.Code)
+                    </div>
+                    <div class="col">
+                        <label><span class="font-weight-bold mt-3">Cấp độ hiện tại: </span>@Model.LevelCurrent</label>
+                    </div>
+                    <div class="col">
+                        <label><span class="font-weight-bold mt-3">Ngày thi xác nhận: </span>@Model.NgayThiXacNhanStr</label>
+                        @Html.HiddenFor(m => m.NgayThiXacNhan)
+                    </div>
+                    <div class="col">
+                        <label><span class="font-weight-bold mt-3">Ngày thi thực tế: </span>@Model.NgayThiThucTeStr</label>
+                        @Html.HiddenFor(m => m.NgayThiThucTe)
+                    </div>
+                </div>
+                <br />
+                <table class="table table border">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Cấp độ I</th>
+                            <th>Cấp độ II</th>
+                            <th>Cấp độ III</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>Tên</td>
+                            <td>
+                                @Html.TextBoxFor(m => m.CapDo, new { @class = "form-control mt-3" })
+                            </td>
+                            <td>
+
+                                @if (ViewBag.SkillLevels != null && ViewBag.SkillLevels.Count > 1)
+                                {
+                                    @Html.TextBoxFor(m => m.NangCap, new { @class = "form-control mt-3", placeholder = ViewBag.SkillLevels[1].Name })
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(m => m.NangCap, new { @class = "form-control mt-3" })
+
+                                }
+
+                            </td>
+                            <td>
+                                @if (ViewBag.SkillLevels != null && ViewBag.SkillLevels.Count > 1)
+                                {
+                                    @Html.TextBoxFor(m => m.CNNguoiDaoTao, new { @class = "form-control mt-3", placeholder = ViewBag.SkillLevels[2].Name }) }
+                                else
+                                {
+                                    @Html.TextBoxFor(m => m.CNNguoiDaoTao, new { @class = "form-control mt-3" })
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ngày Cấp</td>
+                            <td>
+                                <input type="date" name="NgayCap"
+                                       value="@Model.NgayCapStr"
+                                       class="form-control mt-3">
+
+                            </td>
+                            <td>
+                                <input type="date" name="NgayNangCap"
+                                       value="@Model.NgayNangCapStr"
+                                       class="form-control mt-3">
+
+                            </td>
+                            <td>
+                                <input type="date" name="NgayCNNguoiDaoTao"
+                                       value="@Model.NgayCNNguoiDaoTaoStr"
+                                       class="form-control mt-3">
+
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                @Html.HiddenFor(m => m.Mark)
+                @Html.HiddenFor(m => m.Result)
+                @Html.HiddenFor(m => m.SkillID)
+                @Html.HiddenFor(m => m.TypeSkill)
+                <input type="submit" value="Sửa" class="btn btn-success mt-3" id="add_cer" />
+                <hr />
+                @Html.ValidationMessage("Error", new { @class = "text-danger" })
+
+
+            </div>
+        }
+
+    </div>
+
+</div>
+@section scripts{
+    <script src="~/Scripts/custom/home.js"></script>
+}
+
+

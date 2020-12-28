@@ -92,7 +92,7 @@ namespace SkillMapProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddSkillForStaff(int ID = 0)
+        public ActionResult SuaChungChiChoNV(int ID = 0)
         {
             var user = SessionHelper.Get<Member>(Constant.SESSION_LOGIN);
 
@@ -108,8 +108,9 @@ namespace SkillMapProject.Controllers
                     }
                     else
                     {
-                        var cerInDb = db.Certifications.Where(m => m.ID == ID).FirstOrDefault();
-                        GetHistories(cerInDb, db);
+                        var cerInDb = db.Certifications.Include("Member").Include("Member1").Where(m => m.ID == ID).FirstOrDefault();
+                        ViewBag.SkillLevels = db.SkillLevels.Where(m => m.SkillID == cerInDb.SkillID).ToList();
+                        // GetHistories(cerInDb, db);
                         return View(cerInDb);
                     }
 
@@ -118,15 +119,10 @@ namespace SkillMapProject.Controllers
             else return RedirectToAction("Index", "Login");
         }
 
-        private void GetHistories(Certification cerInDb, UMC_SKILLEntities db)
-        {
-            //var list = db.Histories.Include("Member").Include("Member1").Include("Member2").Where(m => m.UserID == cerInDb.UserID && m.SkillID == cerInDb.SkillID).ToList();
-            //if (list != null && list.Count > 0) ViewBag.History = list;
-        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddSkillForStaff(Certification cer)
+        public ActionResult SuaChungChiChoNV(Certification cer)
         {
             if (SessionHelper.IsLogIn())
             {
@@ -154,11 +150,12 @@ namespace SkillMapProject.Controllers
                                     ViewBag.Skills = db.Skills.Where(m => m.Dept == user.Dept).ToList();
                                     return View(cer);
                                 }
-                                cer.Updator = user.ID;
-                                cer.UpdateTime = DateTime.Now;
-                                cer.NguoiChamDiem = user.ID;
-                                db.Certifications.Add(cer);
-                                db.SaveChanges();
+                                else
+                                {
+                                    ModelState.AddModelError("Error", "Không tồn tại chứng chỉ này!");
+                                    return View(cer);
+                                }
+                                
                             }
                             else
                             {
@@ -174,6 +171,37 @@ namespace SkillMapProject.Controllers
                                     cerInDb.NgayThiXacNhan = cer.NgayThiXacNhan;
                                     cerInDb.NgayThiThucTe = cer.NgayThiThucTe;
                                     cerInDb.TypeSkill = cer.TypeSkill;
+                                    cerInDb.SkillID = cer.SkillID;
+                                    if(cer.CapDo != null)
+                                    {
+                                        if (cer.NgayCap == null)
+                                        {
+                                            ModelState.AddModelError("Error", "Bạn cần chọn Ngày Cấp!");
+                                            return View(cer);
+                                        }
+                                        cerInDb.CapDo = cer.CapDo;
+                                        cerInDb.NgayCap = cer.NgayCap;
+                                    }
+                                    if(cer.NangCap != null)
+                                    {
+                                        if(cer.NgayNangCap == null)
+                                        {
+                                            ModelState.AddModelError("Error", "Bạn cần chọn Ngày Nâng Cấp!");
+                                            return View(cer);
+                                        }
+                                        cerInDb.NangCap = cer.NangCap;
+                                        cerInDb.NgayNangCap = cer.NgayNangCap;
+                                    }
+                                    if(cer.CNNguoiDaoTao != null)
+                                    {
+                                        if(cer.NgayCNNguoiDaoTao == null)
+                                        {
+                                            ModelState.AddModelError("Error", "Bạn cần chọn Ngày CN Người Đào tạo!");
+                                            return View(cer);
+                                        }
+                                        cerInDb.CNNguoiDaoTao = cer.CNNguoiDaoTao;
+                                        cerInDb.NgayCNNguoiDaoTao = cer.NgayCNNguoiDaoTao;
+                                    }
                                     db.SaveChanges();
                                 }
                                 else
@@ -184,7 +212,8 @@ namespace SkillMapProject.Controllers
                                 }
                             }
 
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToAction("ViewSkillForStaff", new { ID = cer.UserID });
+
                         }
                     }
                 }

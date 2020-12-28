@@ -102,7 +102,7 @@
                                     <tbody>
                                         <tr>
                                             <td>@cer.CapDo</td>
-                                            <td>@cer.CurrentGrantDateStr</td>
+                                            <td>@cer.NgayCapStr</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -158,9 +158,9 @@
 
                         </td>
                         <td>
-                            <button class="btn btn-warning text-white mr-3">
+                            <a class="btn btn-warning text-white mr-3" href="@Url.Action("SuaChungChiChoNV", "Home", new { ID = cer.ID })">
                                 <i class="fas fa-edit"></i>
-                            </button>
+                            </a>
                         </td>
                     </tr>
                 }
