@@ -25,12 +25,12 @@ namespace SkillMapProject.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Member> Members { get; set; }
-        public virtual DbSet<Role_Member> Role_Member { get; set; }
-        public virtual DbSet<Skill> Skills { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Certification> Certifications { get; set; }
         public virtual DbSet<History> Histories { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
+        public virtual DbSet<OLYMPIC> OLYMPICS { get; set; }
+        public virtual DbSet<Role_Member> Role_Member { get; set; }
+        public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<SkillLevel> SkillLevels { get; set; }
     }
 }

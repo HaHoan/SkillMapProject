@@ -1,0 +1,40 @@
+﻿@using SkillMapProject.Models
+@model List<SkillMapProject.Models.OLYMPIC>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>OLYMPIC & MEISTER</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Code</th>
+            <th>Họ Tên</th>
+            <th>Bộ Phận</th>
+            <th>Nội dung Thi Olympic</th>
+            <th>Lần tổ chức</th>
+            <th>Ngày Thi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var i = 1;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@item.Code</td>
+                    <td>@item.Member.Name</td>
+                    <td>@item.Member.Dept</td>
+                    <td>@item.TestContent</td>
+                    <td>@item.TestNumber</td>
+                    <td>@item.TestDateStr</td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+

@@ -17,6 +17,7 @@ namespace SkillMapProject.Models
         public int ID { get; set; }
         public int SkillID { get; set; }
         public string Name { get; set; }
+        public Nullable<int> STT { get; set; }
     
         public virtual Skill Skill { get; set; }
     }

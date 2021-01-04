@@ -133,6 +133,7 @@
     <Compile Include="Constant.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OlympicController.cs" />
     <Compile Include="Controllers\SkillController.cs" />
     <Compile Include="Controllers\Utils.cs" />
     <Compile Include="Global.asax.cs">
@@ -165,6 +166,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\OLYMPIC.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ResultInfo.cs" />
     <Compile Include="Models\Role_Member.cs">
       <DependentUpon>Model.tt</DependentUpon>
@@ -173,9 +177,6 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SkillLevel.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -351,6 +352,7 @@
     <Content Include="Views\Home\_CommonInfo.cshtml" />
     <Content Include="Views\Home\_HistoryCertificate.cshtml" />
     <Content Include="Views\Home\SuaChungChiChoNV.cshtml" />
+    <Content Include="Views\Olympic\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
