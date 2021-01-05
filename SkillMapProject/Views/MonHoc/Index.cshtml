@@ -1,0 +1,89 @@
+﻿@using SkillMapProject.Models
+@model List<SkillMapProject.Models.MONHOC>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>DANH SÁCH MÔN HỌC</h2>
+<div class="mt-5">
+
+    <button type="button" class="btn btn-success" onclick="AddClick()">
+        <i class="fas fa-plus"></i> Thêm mới
+    </button>
+</div>
+<div class="loading middle">
+    <img src="~/Resources/loading.gif" />
+</div>
+<table class="table table-bordered mt-3">
+    <tr>
+        <th>STT</th>
+        <th>Mã Môn Học</th>
+        <th>Tên Môn Học</th>
+        <th>Loại hình đào tạo</th>
+    </tr>
+    <tbody id="list_monhoc">
+        @{
+
+            var i = 1;
+            foreach (var MonHoc in Model)
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@MonHoc.MaBoMon</td>
+                    <td>@MonHoc.TenBoMon</td>
+                    <td>@MonHoc.LoaiMonHoc</td>
+                </tr>
+                i++;
+            }
+        }
+    </tbody>
+    
+</table>
+
+<div class="modal fade" id="modalAddMonHoc" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Thêm môn học</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body ">
+                <p id="Error"></p>
+                <div class="form-group">
+                    <label class="font-weight-bold">Mã môn học</label>
+                    <input type="text" id="MaMonHoc" name="MaMonHoc" class="form-control mt-1 col-md-12" placeholder="Nhập mã môn học" required />
+                    <label class="font-weight-bold mt-3">Tên môn học</label>
+                    <input type="text" id="TenMonHoc" name="TenMonHoc" class="form-control mt-1 col-md-12" placeholder="Nhập tên môn học" required />
+                    <label class="font-weight-bold mt-3">Loại  hình đào tạo</label>
+                    <select id="loaihinh"class="form-control mt-1 col-md-12">
+                        <option value="0">@LoaiHinhDaoTao.TOANCONGTY</option>
+                        <option value="1">@LoaiHinhDaoTao.TAIBOPHAN</option>
+                    </select>
+                    <label class="font-weight-bold mt-3">Phòng ban</label>
+                    <select id="dept" class="form-control mt-1 col-md-12">
+                        @if (ViewBag.Depts != null)
+                        {
+                            foreach (var dept in ViewBag.Depts)
+                            {
+                                <option>@dept.DeptName</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-success" onclick="AddMonHoc()">Lưu lại</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/custom/monhoc.js"></script>
+}

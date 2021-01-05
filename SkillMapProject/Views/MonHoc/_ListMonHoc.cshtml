@@ -1,0 +1,15 @@
+﻿@model List<SkillMapProject.Models.MONHOC>
+@{
+
+    var i = 1;
+    foreach (var MonHoc in Model)
+    {
+        <tr>
+            <td>@i</td>
+            <td>@MonHoc.MaBoMon</td>
+            <td>@MonHoc.TenBoMon</td>
+            <td>@MonHoc.LoaiMonHoc</td>
+        </tr>
+        i++;
+    }
+}

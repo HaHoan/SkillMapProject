@@ -26,6 +26,10 @@ namespace SkillMapProject.Models
             this.OLYMPICS = new HashSet<OLYMPIC>();
             this.Skills = new HashSet<Skill>();
             this.Skills1 = new HashSet<Skill>();
+            this.HISTORY_SKILLMAP = new HashSet<HISTORY_SKILLMAP>();
+            this.MONHOCs = new HashSet<MONHOC>();
+            this.MONHOCs1 = new HashSet<MONHOC>();
+            this.SKILLMAPs = new HashSet<SKILLMAP>();
         }
     
         public int ID { get; set; }
@@ -57,5 +61,13 @@ namespace SkillMapProject.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Skill> Skills1 { get; set; }
         public virtual Role_Member Role_Member { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HISTORY_SKILLMAP> HISTORY_SKILLMAP { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MONHOC> MONHOCs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MONHOC> MONHOCs1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SKILLMAP> SKILLMAPs { get; set; }
     }
 }

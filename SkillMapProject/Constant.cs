@@ -10,6 +10,11 @@ namespace SkillMapProject
         public static string SESSION_LOGIN = "LOGIN";
         public static string[] SPECIAL_DEPT = { "EDU" };
         public static int ADMIN = 2;
+        
     }
-  
+    public static class LoaiHinhDaoTao
+    {
+        public static string TOANCONGTY = "Đào tạo toàn công ty";
+        public static string TAIBOPHAN = "Đào tạo tại bộ phận";
+    }
 }
