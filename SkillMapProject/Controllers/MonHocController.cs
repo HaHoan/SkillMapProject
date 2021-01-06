@@ -17,7 +17,7 @@ namespace SkillMapProject.Controllers
             {
                 using (var db = new UMC_SKILLEntities())
                 {
-                    var list = db.MONHOCs.ToList();
+                    var list = db.MONHOCs.Where(m => m.Removed == 0).ToList();
 
                     using (var dbGA = new GA_UMCEntities())
                     {
@@ -48,7 +48,7 @@ namespace SkillMapProject.Controllers
                 monhoc.CreateDate = DateTime.Now;
                 monhoc.ModifyBy = user.ID;
                 monhoc.ModifyDate = DateTime.Now;
-
+                monhoc.Removed = 0;
                 using (var db = new UMC_SKILLEntities())
                 {
                     if (db.MONHOCs.Where(m => m.MaBoMon == monhoc.MaBoMon).FirstOrDefault() != null)
@@ -57,7 +57,7 @@ namespace SkillMapProject.Controllers
                     }
                     db.MONHOCs.Add(monhoc);
                     db.SaveChanges();
-                     var listMonHoc = db.MONHOCs.OrderByDescending(m => m.ModifyDate).ToList();
+                     var listMonHoc = db.MONHOCs.Where(m => m.Removed == 0).OrderByDescending(m => m.ModifyDate).ToList();
                     var message = Utils.ConvertViewToString("~/Views/MonHoc/_ListMonHoc.cshtml", listMonHoc, ViewData, ControllerContext);
                     return Json(new { code = RESULT.SUCCESS, message = message }, JsonRequestBehavior.AllowGet);
                 }
@@ -67,6 +67,52 @@ namespace SkillMapProject.Controllers
                 return Json(new { code = RESULT.ERROR, message = "Có lỗi xảy ra khi thêm vào DB" });
             }
 
+        }
+
+        public JsonResult SuaMonHoc(string MaMonHoc, string TenMonHoc, string loaihinh, string dept)
+        {
+            try
+            {
+                using (var db = new UMC_SKILLEntities())
+                {
+                    var user = SessionHelper.Get<Member>(Constant.SESSION_LOGIN);
+                    var monhoc = db.MONHOCs.Where(m => m.MaBoMon == MaMonHoc).FirstOrDefault();
+                    monhoc.TenBoMon = TenMonHoc;
+                    monhoc.LoaiMonHoc = loaihinh;
+                    monhoc.Dept = dept;
+                    monhoc.ModifyBy = user.ID;
+                    monhoc.ModifyDate = DateTime.Now;
+                    db.SaveChanges();
+                    var listMonHoc = db.MONHOCs.Where(m => m.Removed == 0).OrderByDescending(m => m.ModifyDate).ToList();
+                    var message = Utils.ConvertViewToString("~/Views/MonHoc/_ListMonHoc.cshtml", listMonHoc, ViewData, ControllerContext);
+                    return Json(new { code = RESULT.SUCCESS, message = message }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = RESULT.ERROR, message = "Có lỗi xảy ra khi thêm vào DB" });
+            }
+        }
+
+        public JsonResult XoaMonHoc(string MaBoMon)
+        {
+            try
+            {
+                using (var db = new UMC_SKILLEntities())
+                {
+                    var user = SessionHelper.Get<Member>(Constant.SESSION_LOGIN);
+                    var monhoc = db.MONHOCs.Where(m => m.MaBoMon == MaBoMon).FirstOrDefault();
+                    monhoc.Removed = 1;
+                    db.SaveChanges();
+                    var listMonHoc = db.MONHOCs.Where(m => m.Removed == 0).OrderByDescending(m => m.ModifyDate).ToList();
+                    var message = Utils.ConvertViewToString("~/Views/MonHoc/_ListMonHoc.cshtml", listMonHoc, ViewData, ControllerContext);
+                    return Json(new { code = RESULT.SUCCESS, message = message }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = RESULT.ERROR, message = "Có lỗi xảy ra khi thêm vào DB" });
+            }
         }
     }
 }

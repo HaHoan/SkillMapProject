@@ -9,6 +9,11 @@
             <td>@MonHoc.MaBoMon</td>
             <td>@MonHoc.TenBoMon</td>
             <td>@MonHoc.LoaiMonHoc</td>
+            <td>
+                <button class="btn btn-warning text-white mr-3" onclick="EditClick('@MonHoc.MaBoMon','@MonHoc.TenBoMon','@MonHoc.LoaiMonHoc','@MonHoc.Dept')" name="@(MonHoc.MaBoMon)">
+                    <i class="fas fa-edit"></i>
+                </button><button class="btn btn-danger text-white" onclick="DeleteClick('@MonHoc.MaBoMon')"><i class="fas fa-trash-alt"></i></button>
+            </td>
         </tr>
         i++;
     }

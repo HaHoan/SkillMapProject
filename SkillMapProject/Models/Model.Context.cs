@@ -33,7 +33,7 @@ namespace SkillMapProject.Models
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<SkillLevel> SkillLevels { get; set; }
         public virtual DbSet<HISTORY_SKILLMAP> HISTORY_SKILLMAP { get; set; }
-        public virtual DbSet<MONHOC> MONHOCs { get; set; }
         public virtual DbSet<SKILLMAP> SKILLMAPs { get; set; }
+        public virtual DbSet<MONHOC> MONHOCs { get; set; }
     }
 }

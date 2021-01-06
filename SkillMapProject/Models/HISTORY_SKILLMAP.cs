@@ -21,7 +21,7 @@ namespace SkillMapProject.Models
         public System.DateTime NgayThamGia { get; set; }
         public string GhiChu { get; set; }
     
-        public virtual MONHOC MONHOC { get; set; }
         public virtual Member Member { get; set; }
+        public virtual MONHOC MONHOC { get; set; }
     }
 }

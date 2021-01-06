@@ -29,6 +29,7 @@ namespace SkillMapProject.Models
         public System.DateTime ModifyDate { get; set; }
         public string LoaiMonHoc { get; set; }
         public string Dept { get; set; }
+        public Nullable<int> Removed { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HISTORY_SKILLMAP> HISTORY_SKILLMAP { get; set; }

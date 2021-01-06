@@ -26,13 +26,13 @@
         <AssociationConnector Association="UMC_SKILLModel.FK_RoleMember" ManuallyRouted="false" />
         <AssociationConnector Association="UMC_SKILLModel.FK_SkillLevel" ManuallyRouted="false" />
         <EntityTypeShape EntityType="UMC_SKILLModel.HISTORY_SKILLMAP" Width="1.5" PointX="7.5" PointY="12.375" />
-        <EntityTypeShape EntityType="UMC_SKILLModel.MONHOC" Width="1.5" PointX="5.25" PointY="14.125" />
         <EntityTypeShape EntityType="UMC_SKILLModel.SKILLMAP" Width="1.5" PointX="10.5" PointY="12.375" />
-        <AssociationConnector Association="UMC_SKILLModel.FK_BoMonHisSkillMap" />
         <AssociationConnector Association="UMC_SKILLModel.FK_MemberHisSkillMap" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_MemberSkillMap" />
+        <EntityTypeShape EntityType="UMC_SKILLModel.MONHOC" Width="1.5" PointX="5.25" PointY="10.75" />
+        <AssociationConnector Association="UMC_SKILLModel.FK_BoMonHisSkillMap" />
         <AssociationConnector Association="UMC_SKILLModel.FK_MemberCreateBy" />
         <AssociationConnector Association="UMC_SKILLModel.FK_MemberModifyBy" />
-        <AssociationConnector Association="UMC_SKILLModel.FK_MemberSkillMap" />
         <AssociationConnector Association="UMC_SKILLModel.FK_BoMonSkillMap" />
         </Diagram>
     </edmx:Diagrams>
