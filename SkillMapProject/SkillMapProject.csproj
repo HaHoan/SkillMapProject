@@ -207,6 +207,7 @@
     <Compile Include="Models\SKILLMAP.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SkillMapByUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -251,6 +252,7 @@
     <Content Include="Scripts\custom\home.js" />
     <Content Include="Scripts\custom\monhoc.js" />
     <Content Include="Scripts\custom\skill.js" />
+    <Content Include="Scripts\custom\skillmap.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -401,6 +403,7 @@
     <Content Include="Views\Olympic\Index.cshtml" />
     <Content Include="Views\MonHoc\Index.cshtml" />
     <Content Include="Views\MonHoc\_ListMonHoc.cshtml" />
+    <Content Include="Views\Home\_SkillMap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

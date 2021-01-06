@@ -12,8 +12,9 @@
 <div class="row">
     <div class="col">
         <div class="row">
+            <input type="hidden" value="@Model.userID" id="userID"/>
             <div class="col-3"><label class="font-weight-bold">Mã NV</label></div>
-            <div class="col-9">@Model.Code</div>
+            <div class="col-9" id="StaffCode">@Model.Code</div>
         </div>
     </div>
     <div class="col">
@@ -42,11 +43,9 @@
         <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Kĩ năng</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Chứng chỉ</a>
+        <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Môn học toàn công ty</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Môn học</a>
-    </li>
+    
 </ul><!-- Tab panes -->
 <div class="tab-content">
     <div class="tab-pane active" id="tabs-1" role="tabpanel">
@@ -169,13 +168,43 @@
         </table>
     </div>
     <div class="tab-pane" id="tabs-2" role="tabpanel">
-        <p>Second Panel</p>
+        
     </div>
-    <div class="tab-pane" id="tabs-3" role="tabpanel">
-        <p>Third Panel</p>
-    </div>
+    
 </div>
 
+<!--Them Mon hoc cho nv-->
+<div class="modal fade" id="modalAddSkillMapForStaff" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Thêm môn học cho NV</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body ">
+                <p id="Error"></p>
+                <div class="form-group">
+                    <label class="font-weight-bold">Mã bộ môn</label>
+                    <input type="text" id="MaMonHoc" class="form-control mt-1 col-md-12" readonly />
+                    <label class="font-weight-bold mt-3">Tên bộ môn</label>
+                    <input type="text" id="TenMonHoc" class="form-control mt-1 col-md-12" readonly />
+                    <label class="font-weight-bold mt-3">Ngày Tham Gia</label>
+                    <input type="date" class="form-control date mt-1 col-md-12" id="NgayThamGia" />
+                    <label class="font-weight-bold mt-3">Ghi chú</label>
+                    <textarea  class="form-control mt-1 col-md-12" id="GhiChu"></textarea>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-success" onclick="ThemSkillMap()">Lưu lại</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 @section scripts{
-    <script src="~/Scripts/custom/home.js"></script>
+    <script src="~/Scripts/custom/skillmap.js"></script>
 }

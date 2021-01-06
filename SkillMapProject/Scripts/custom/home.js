@@ -1,4 +1,6 @@
-﻿$(function () {
+﻿const SUCCESS = 1;
+const ERROR = 2;
+$(function () {
     GetSkillOfStaffList();
     getDate();
     addLevelForSkill($('#skill_selected').val());
@@ -23,7 +25,7 @@ function addLevelForSkill(levels) {
             $('#levels_selected').append('<option value = "' + index + '" name = "' + item + '">' + item + '</option>');
             $('#capdo_selected').append('<option value = "' + index + '"> Cấp Độ ' + (index + 1) + '</option>');
         }
-       
+
     });
     changeLevelByCapDo();
 }
@@ -40,20 +42,6 @@ function GetSkillOfStaffList() {
             $(".loading").hide();
         }
     });
-}
-
-function TabCerClick() {
-    $("#li_cer").addClass("active");
-    $("#li_skill").removeClass("active");
-}
-function TabSkillClick() {
-    $("#li_skill").addClass("active");
-    $("#li_cer").removeClass("active");
-}
-
-function getDate() {
-    var today = new Date();
-    $('.date').val(today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2));
 }
 
 var selectedUser = "";
@@ -91,3 +79,4 @@ function submitSkillForStaff() {
         }
     });
 }
+

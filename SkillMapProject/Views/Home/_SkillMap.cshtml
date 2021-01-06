@@ -1,0 +1,41 @@
+﻿@using SkillMapProject.Models
+@using SkillMapProject.Controllers
+@model SkillMapProject.Models.SkillMapByUser
+
+<br />
+<p class="font-weight-bold">Total : @Model.ListSkillMaps.Count</p>
+<table class="table table-bordered">
+    <tr>
+        <th>Mã Bộ Môn</th>
+        <th>Tên Bộ Môn</th>
+        <th>Ngày Tham Gia</th>
+        <th>Ghi chú</th>
+    </tr>
+    <tbody id="list_monhoc">
+        @foreach (var monhoc in Model.dics.Keys)
+        {
+            var skillmap = new SKILLMAP();
+            Model.dics.TryGetValue(monhoc, out skillmap);
+        <tr>
+            <td>@monhoc.MaBoMon</td>
+            <td>@monhoc.TenBoMon</td>
+            @if (skillmap != null)
+            {
+                <td>@skillmap.NgayThamGia.ToShortDateString()</td>
+                <td>@skillmap.GhiChu</td>
+            }
+            else
+            {
+                <td>@(" ")</td>
+                <td>@(" ")</td>
+            }
+           
+            <td>
+                <button type="button" class="btn btn-success" onclick="addSkillMapForStaff('@monhoc.MaBoMon','@monhoc.TenBoMon','@(skillmap != null ? skillmap.NgayThamGia.ToDateString() : DateTime.Now.ToDateString())')">
+                    <i class="fas fa-plus"></i> Thêm
+                </button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

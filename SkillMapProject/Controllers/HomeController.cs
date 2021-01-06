@@ -70,7 +70,7 @@ namespace SkillMapProject.Controllers
                         Dept = u.Dept,
                         ListSkills = skills
                     };
-                    foreach(var skill in allSkill)
+                    foreach (var skill in allSkill)
                     {
                         var cer = skills.Where(m => m.SkillID == skill.ID).FirstOrDefault();
                         dics.Add(skill, cer);
@@ -155,7 +155,7 @@ namespace SkillMapProject.Controllers
                                     ModelState.AddModelError("Error", "Không tồn tại chứng chỉ này!");
                                     return View(cer);
                                 }
-                                
+
                             }
                             else
                             {
@@ -172,7 +172,7 @@ namespace SkillMapProject.Controllers
                                     cerInDb.NgayThiThucTe = cer.NgayThiThucTe;
                                     cerInDb.TypeSkill = cer.TypeSkill;
                                     cerInDb.SkillID = cer.SkillID;
-                                    if(cer.CapDo != null)
+                                    if (cer.CapDo != null)
                                     {
                                         if (cer.NgayCap == null)
                                         {
@@ -182,9 +182,9 @@ namespace SkillMapProject.Controllers
                                         cerInDb.CapDo = cer.CapDo;
                                         cerInDb.NgayCap = cer.NgayCap;
                                     }
-                                    if(cer.NangCap != null)
+                                    if (cer.NangCap != null)
                                     {
-                                        if(cer.NgayNangCap == null)
+                                        if (cer.NgayNangCap == null)
                                         {
                                             ModelState.AddModelError("Error", "Bạn cần chọn Ngày Nâng Cấp!");
                                             return View(cer);
@@ -192,9 +192,9 @@ namespace SkillMapProject.Controllers
                                         cerInDb.NangCap = cer.NangCap;
                                         cerInDb.NgayNangCap = cer.NgayNangCap;
                                     }
-                                    if(cer.CNNguoiDaoTao != null)
+                                    if (cer.CNNguoiDaoTao != null)
                                     {
-                                        if(cer.NgayCNNguoiDaoTao == null)
+                                        if (cer.NgayCNNguoiDaoTao == null)
                                         {
                                             ModelState.AddModelError("Error", "Bạn cần chọn Ngày CN Người Đào tạo!");
                                             return View(cer);
@@ -307,5 +307,108 @@ namespace SkillMapProject.Controllers
             }
             else return RedirectToAction("Index", "Login");
         }
+        public JsonResult GetAllSubjectOfStaff(int ID)
+        {
+            var user = SessionHelper.Get<Member>(Constant.SESSION_LOGIN);
+            if (user == null) return Json(new { body = "" }, JsonRequestBehavior.AllowGet);
+            using (var db = new UMC_SKILLEntities())
+            {
+                var member = db.Members.Where(m => m.ID == ID).FirstOrDefault();
+                if (member == null)
+                {
+                    return Json(new { code = RESULT.ERROR }, JsonRequestBehavior.AllowGet);
+                }
+                var list = db.SKILLMAPs.Include("MONHOC").Where(m => m.UserID == ID && m.MONHOC.LoaiMonHoc == LoaiHinhDaoTao.TOANCONGTY).OrderByDescending(m => m.NgayThamGia).ToList();
+                var listMonHoc = db.MONHOCs.Where(m => m.Removed == 0 && m.LoaiMonHoc == LoaiHinhDaoTao.TOANCONGTY).ToList();
+
+                var skillMapByUser = new SkillMapByUser()
+                {
+                    userID = ID,
+                    Code = member.Code,
+                    FullName = member.Name,
+                    Dept = member.Dept,
+                    DateEnter = member.DateEnter.ToShortDateString(),
+                    ListSkillMaps = list
+                };
+                Dictionary<MONHOC, SKILLMAP> dics = new Dictionary<MONHOC, SKILLMAP>();
+
+                foreach (var monhoc in listMonHoc)
+                {
+                    var skillMap = list.Where(m => m.MaBoMon == monhoc.MaBoMon).FirstOrDefault();
+                    dics.Add(monhoc, skillMap);
+                }
+                skillMapByUser.dics = dics;
+
+                return Json(new
+                {
+                    code = RESULT.SUCCESS,
+                    message = Utils.ConvertViewToString("~/Views/Home/_SkillMap.cshtml", skillMapByUser, ViewData, ControllerContext),
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public JsonResult AddSkillMap(string MaMonHoc, string NgayThamGia, int userID, string StaffCode,string GhiChu)
+        {
+            try
+            {
+               
+                using ( var db = new UMC_SKILLEntities())
+                {
+                    var user = SessionHelper.Get<Member>(Constant.SESSION_LOGIN);
+                    SKILLMAP skillmap = db.SKILLMAPs.Where(m => m.MaBoMon == MaMonHoc && m.UserID == userID).FirstOrDefault();
+                    if (skillmap != null)
+                    {
+                        skillmap.GhiChu = GhiChu;
+                        skillmap.NgayThamGia = DateTime.Parse(NgayThamGia);
+                    }
+                    else
+                    {
+                        skillmap = new SKILLMAP();
+                        skillmap.MaBoMon = MaMonHoc;
+                        skillmap.GhiChu = GhiChu;
+                        skillmap.StaffCode = StaffCode;
+                        skillmap.UserID = userID;
+                        skillmap.NgayThamGia = DateTime.Parse(NgayThamGia);
+                        db.SKILLMAPs.Add(skillmap);
+                    }
+                    db.SaveChanges();
+
+                    var list = db.SKILLMAPs.Include("MONHOC").Where(m => m.UserID == userID && m.MONHOC.LoaiMonHoc == LoaiHinhDaoTao.TOANCONGTY).OrderByDescending(m => m.NgayThamGia).ToList();
+                    var listMonHoc = db.MONHOCs.Where(m => m.Removed == 0 && m.LoaiMonHoc == LoaiHinhDaoTao.TOANCONGTY).ToList();
+
+                    var skillMapByUser = new SkillMapByUser()
+                    {
+                        userID = userID,
+                        Code = StaffCode,
+                        FullName = "",
+                        Dept = "",
+                        DateEnter = "",
+                        ListSkillMaps = list
+                    };
+                    Dictionary<MONHOC, SKILLMAP> dics = new Dictionary<MONHOC, SKILLMAP>();
+
+                    foreach (var monhoc in listMonHoc)
+                    {
+                        var skillMap = list.Where(m => m.MaBoMon == monhoc.MaBoMon).FirstOrDefault();
+                        dics.Add(monhoc, skillMap);
+                    }
+                    skillMapByUser.dics = dics;
+
+                    return Json(new
+                    {
+                        code = RESULT.SUCCESS,
+                        message = Utils.ConvertViewToString("~/Views/Home/_SkillMap.cshtml", skillMapByUser, ViewData, ControllerContext),
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = RESULT.ERROR, message = "Có lỗi xảy ra khi thêm vào DB" });
+            }
+
+        }
+
     }
+
+
 }

@@ -9,9 +9,10 @@
 
 namespace SkillMapProject.Models
 {
+    using SkillMapProject.Controllers;
     using System;
     using System.Collections.Generic;
-    
+
     public partial class SKILLMAP
     {
         public int ID { get; set; }
@@ -19,8 +20,20 @@ namespace SkillMapProject.Models
         public string StaffCode { get; set; }
         public string MaBoMon { get; set; }
         public System.DateTime NgayThamGia { get; set; }
+        public string NgayThamGiaStr
+        {
+            get
+            {
+                if (NgayThamGia != null)
+                {
+                    return "";
+                }
+                else
+                    return NgayThamGia.ToDateString();
+            }
+        }
         public string GhiChu { get; set; }
-    
+
         public virtual Member Member { get; set; }
         public virtual MONHOC MONHOC { get; set; }
     }
