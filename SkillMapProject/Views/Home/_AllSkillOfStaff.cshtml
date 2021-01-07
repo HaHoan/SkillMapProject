@@ -19,7 +19,7 @@
                             {
                                 <td><a href="@Url.Action("ViewSkillForStaff", "Home", new { ID = cer.userID })">@cer.Code</a></td>
                             }*@
-            <td><a href="@Url.Action("ViewSkillForStaff", "Home", new { ID = cer.userID })">@cer.Code</a></td>
+            <td><a href="@Url.Action("ViewSkillForStaff", "Home", new { ID = cer.userID })" target="_blank">@cer.Code</a></td>
             <td>@cer.FullName</td>
             @foreach (var skill in cer.dics.Keys)
             {
@@ -28,16 +28,16 @@
                 if (cerInDics != null)
                 {
                     <td class="p-0">
-                        <table>
+                        <table class="table-detail">
                             <thead>
                                 <tr>
                                     <th style="font-size:13px;">Cấp độ</th>
-                                    <th style="font-size:13px;">Ngày Cấp</th>
+                                    <th style="font-size:13px;">Ngày cấp</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>@cerInDics.LevelCurrent</td>
+                                    <td width="100%">@cerInDics.LevelCurrent</td>
                                     <td>@cerInDics.CurrentGrantDateStr</td>
                                 </tr>
                             </tbody>

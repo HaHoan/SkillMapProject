@@ -9,33 +9,23 @@
     <link href="@Url.Content("~/Content/css/main.css")"
           rel="stylesheet" type="text/css" />
 }
-<div class="row">
-    <div class="col">
-        <div class="row">
-            <input type="hidden" value="@Model.userID" id="userID"/>
-            <div class="col-3"><label class="font-weight-bold">Mã NV</label></div>
-            <div class="col-9" id="StaffCode">@Model.Code</div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="row">
-            <div class="col-3"><label class="font-weight-bold">Họ tên</label></div>
-            <div class="col-9">@Model.FullName</div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="row">
-            <div class="col-3"><label class="font-weight-bold">Phòng ban</label></div>
-            <div class="col-9">@Model.Dept</div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="row">
-            <div class="col-3"><label class="font-weight-bold">Ngày Vào:</label></div>
-            <div class="col-9">@Model.DateEnter</div>
-        </div>
-    </div>
 
+<div class="d-inline mr-5">
+    <input type="hidden" value="@Model.userID" id="userID" />
+    <label class="font-weight-bold">Mã NV</label>
+    <span id="StaffCode">@Model.Code</span>
+</div>
+<div class="d-inline mr-5">
+        <label class="font-weight-bold">Họ tên</label>
+        <span>@Model.FullName</span>
+</div>
+<div class="d-inline mr-5">
+    <label class="font-weight-bold">Phòng ban</label>
+    <span>@Model.Dept</span>
+</div>
+<div class="d-inline">
+    <label class="font-weight-bold">Ngày vào</label>
+    <span>@Model.DateEnter</span>
 </div>
 <hr />
 <ul class="nav nav-tabs" role="tablist">
@@ -45,7 +35,7 @@
     <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Môn học toàn công ty</a>
     </li>
-    
+
 </ul><!-- Tab panes -->
 <div class="tab-content">
     <div class="tab-pane active" id="tabs-1" role="tabpanel">
@@ -168,9 +158,9 @@
         </table>
     </div>
     <div class="tab-pane" id="tabs-2" role="tabpanel">
-        
+
     </div>
-    
+
 </div>
 
 <!--Them Mon hoc cho nv-->
@@ -193,7 +183,7 @@
                     <label class="font-weight-bold mt-3">Ngày Tham Gia</label>
                     <input type="date" class="form-control date mt-1 col-md-12" id="NgayThamGia" />
                     <label class="font-weight-bold mt-3">Ghi chú</label>
-                    <textarea  class="form-control mt-1 col-md-12" id="GhiChu"></textarea>
+                    <textarea class="form-control mt-1 col-md-12" id="GhiChu"></textarea>
                 </div>
 
             </div>

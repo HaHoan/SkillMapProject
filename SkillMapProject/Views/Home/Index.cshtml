@@ -12,12 +12,13 @@
     <img src="~/Resources/loading.gif" />
 </div>
 <div>
+    <input type="text" placeholder="Nhập mã nhân viên" class="form-control mb-3" id="search"/>
     <table class="table table-main table-bordered mt-2">
         <thead>
             <tr>
-                <th scope="col" style="width:50px;">STT</th>
-                <th scope="col" style="width:100px;">Code</th>
-                <th scope="col" style="width:150px;">Nhân viên</th>
+                <th scope="col" style="width:20px;">STT</th>
+                <th scope="col" style="width:40px;">Code</th>
+                <th scope="col" style="width:50px;">Nhân viên</th>
                 @foreach (var skill in ViewBag.SkillLevels)
                 {
                     <th style="width:200px;">@skill.Name</th>

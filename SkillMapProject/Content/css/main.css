@@ -1,7 +1,6 @@
 ﻿.table-main {
     border: 1px solid #efe6e6;
     table-layout: fixed;
-    width: 200px;
 }
 
     .table-main th, td {
@@ -9,12 +8,13 @@
         width: 100px;
         overflow: hidden;
     }
-   
+
 .table-detail {
     table-layout: auto;
     width: 100%;
+    font-size: 12px;
 }
 
-    .table-detail th {
-        font-size: 14px;
+    .table-detail td {
+        white-space: nowrap;
     }

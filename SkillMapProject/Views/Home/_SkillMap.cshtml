@@ -16,26 +16,40 @@
         {
             var skillmap = new SKILLMAP();
             Model.dics.TryGetValue(monhoc, out skillmap);
-        <tr>
-            <td>@monhoc.MaBoMon</td>
-            <td>@monhoc.TenBoMon</td>
-            @if (skillmap != null)
-            {
-                <td>@skillmap.NgayThamGia.ToShortDateString()</td>
-                <td>@skillmap.GhiChu</td>
-            }
-            else
-            {
-                <td>@(" ")</td>
-                <td>@(" ")</td>
-            }
-           
-            <td>
-                <button type="button" class="btn btn-success" onclick="addSkillMapForStaff('@monhoc.MaBoMon','@monhoc.TenBoMon','@(skillmap != null ? skillmap.NgayThamGia.ToDateString() : DateTime.Now.ToDateString())')">
-                    <i class="fas fa-plus"></i> Thêm
-                </button>
-            </td>
-        </tr>
+            <tr>
+                <td>@monhoc.MaBoMon</td>
+                <td>@monhoc.TenBoMon</td>
+                @if (skillmap != null)
+                {
+                    <td>@skillmap.NgayThamGia.ToShortDateString()</td>
+                    <td>@skillmap.GhiChu</td>
+                }
+                else
+                {
+                    <td>@(" ")</td>
+                    <td>@(" ")</td>
+                }
+
+                    <td>
+                        @if (skillmap == null)
+                        {
+                            <button type="button" class="btn btn-success text-white" onclick="addSkillMapForStaff('@monhoc.MaBoMon','@monhoc.TenBoMon','@(DateTime.Now.ToDateString())')">
+
+                                <i class="fas fa-plus"></i>
+
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-warning text-white" onclick="addSkillMapForStaff('@monhoc.MaBoMon','@monhoc.TenBoMon','@(skillmap.NgayThamGia.ToDateString())')">
+
+                                <i class="fas fa-edit "></i>
+
+                            </button>
+                        }
+
+                    </td>
+            </tr>
         }
     </tbody>
 </table>

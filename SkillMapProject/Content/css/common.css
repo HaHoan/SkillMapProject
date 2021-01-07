@@ -1,4 +1,8 @@
-﻿.dropdown-toggle::after {
+﻿html {
+    font-size: 13px;
+}
+
+.dropdown-toggle::after {
     content: none;
 }
 

@@ -32,7 +32,7 @@ namespace SkillMapProject.Controllers
                     }
 
                     // Chỉ được thêm những chứng chỉ của phòng ban mình
-                    ViewBag.SkillLevels = db.Skills.Include("SkillLevels").ToList();
+                    ViewBag.SkillLevels = db.Skills.Include("SkillLevels").Where(m => m.Removed == 0).ToList();
                 }
                 return View();
             }
@@ -48,19 +48,28 @@ namespace SkillMapProject.Controllers
             else return RedirectToAction("Index", "Login");
         }
 
-        public JsonResult GetSkillOfStaffList()
+        public JsonResult GetSkillOfStaffList(string search)
         {
             var user = SessionHelper.Get<Member>(Constant.SESSION_LOGIN);
             if (user == null) return Json(new { body = "" }, JsonRequestBehavior.AllowGet);
             using (var db = new UMC_SKILLEntities())
             {
+                var listUser = new List<Member>();
+                if (string.IsNullOrEmpty(search))
+                {
+                    listUser = db.Members.ToList();
 
-                var listUser = db.Members.ToList();
+                }
+                else
+                {
+                    listUser = db.Members.Where(m => m.Code == search).ToList();
+
+                }
                 var listCerByUser = new List<CertificateByUser>();
                 foreach (var u in listUser)
                 {
-                    var skills = db.Certifications.Include("Skill").Where(m => m.UserID == u.ID).ToList();
-                    var allSkill = db.Skills.ToList();
+                    var skills = db.Certifications.Include("Skill").Where(m => m.UserID == u.ID && m.Skill.Removed == 0).ToList();
+                    var allSkill = db.Skills.Where(m => m.Removed == 0).ToList();
                     Dictionary<Skill, Certification> dics = new Dictionary<Skill, Certification>();
                     var cerByUser = new CertificateByUser()
                     {
@@ -101,7 +110,7 @@ namespace SkillMapProject.Controllers
                 using (var db = new UMC_SKILLEntities())
                 {
                     // Chỉ được thêm những chứng chỉ của phòng ban mình
-                    ViewBag.Skills = db.Skills.Where(m => m.Dept == user.Dept).ToList();
+                    ViewBag.Skills = db.Skills.Where(m => m.Removed == 0).ToList();
                     if (ID == 0)
                     {
                         return View();
@@ -135,7 +144,7 @@ namespace SkillMapProject.Controllers
                         if (member == null)
                         {
                             ModelState.AddModelError("Error", "Không tồn tại user " + cer.Code);
-                            ViewBag.Skills = db.Skills.Where(m => m.Dept == user.Dept).ToList();
+                            ViewBag.Skills = db.Skills.Where(m => m.Removed == 0).ToList();
                             return View(cer);
                         }
                         else
@@ -147,7 +156,7 @@ namespace SkillMapProject.Controllers
                                 if (cerInDb != null)
                                 {
                                     ModelState.AddModelError("Error", "Nhân viên " + cer.Code + " Đã học môn này rồi!");
-                                    ViewBag.Skills = db.Skills.Where(m => m.Dept == user.Dept).ToList();
+                                    ViewBag.Skills = db.Skills.Where(m => m.Removed == 0).ToList();
                                     return View(cer);
                                 }
                                 else
@@ -207,7 +216,7 @@ namespace SkillMapProject.Controllers
                                 else
                                 {
                                     ModelState.AddModelError("Error", "Không tồn tại chứng chỉ này cho nhân viên!");
-                                    ViewBag.Skills = db.Skills.Where(m => m.Dept == user.Dept).ToList();
+                                    ViewBag.Skills = db.Skills.Where(m => m.Removed == 0).ToList();
                                     return View(cer);
                                 }
                             }
@@ -285,7 +294,7 @@ namespace SkillMapProject.Controllers
                     {
                         var u = db.Members.Where(m => m.ID == ID).FirstOrDefault();
                         var skills = db.Certifications.Include("Skill")
-                           .Where(m => m.UserID == u.ID)
+                           .Where(m => m.UserID == u.ID && m.Skill.Removed == 0)
                            .ToList();
                         var cerByUser = new CertificateByUser()
                         {
@@ -347,12 +356,12 @@ namespace SkillMapProject.Controllers
             }
 
         }
-        public JsonResult AddSkillMap(string MaMonHoc, string NgayThamGia, int userID, string StaffCode,string GhiChu)
+        public JsonResult AddSkillMap(string MaMonHoc, string NgayThamGia, int userID, string StaffCode, string GhiChu)
         {
             try
             {
-               
-                using ( var db = new UMC_SKILLEntities())
+
+                using (var db = new UMC_SKILLEntities())
                 {
                     var user = SessionHelper.Get<Member>(Constant.SESSION_LOGIN);
                     SKILLMAP skillmap = db.SKILLMAPs.Where(m => m.MaBoMon == MaMonHoc && m.UserID == userID).FirstOrDefault();

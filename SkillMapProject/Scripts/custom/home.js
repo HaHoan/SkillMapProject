@@ -30,9 +30,11 @@ function addLevelForSkill(levels) {
     changeLevelByCapDo();
 }
 function GetSkillOfStaffList() {
+    var search = $('#search').val();
     $(".loading").show();
     $.ajax({
         url: "/Home/GetSkillOfStaffList",
+        data: { search: search },
         success: function (response) {
             $('#list_skill_of_staff').html(response.body);
             $(".loading").hide();
@@ -48,7 +50,12 @@ var selectedUser = "";
 function addSkillForStaff(userId) {
     selectedUser = userId;
 }
+$("#search").on("keydown", function (event) {
+    if (event.which == 13) {
+        GetSkillOfStaffList();
+    }
 
+});
 function submitSkillForStaff() {
     var CapDo = $('#levels_selected').find('option:selected').attr("name");
     var NgayCap = $('#NgayCap').val();
