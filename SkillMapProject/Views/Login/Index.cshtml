@@ -4,33 +4,43 @@
 }
 
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
     <meta name="viewport" content="width=device-width" />
     <link href="~/Content/fontawesome-free/css/all.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/css/common.css" rel="stylesheet" />
+    <link href="~/Content/css/login.css" rel="stylesheet" />
     <title>Index</title>
 </head>
 <body>
+    <div class="global-container">
+        <div class="card login-form">
+            <div class="card-body">
+                <h3 class="card-title text-center">ĐĂNG NHẬP</h3>
+                <div class="card-text">
+                    @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken();
+                        <div class="form-group">
+                            <label>Staff Code</label>
+                            @Html.TextBoxFor(m => m.Code, new { @class = "form-control", placeholder = "Staff Code", @required = "required" })
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            @Html.TextBoxFor(m => m.Pass, new { @class = "form-control", placeholder = "Password", @type = "password", @required = "required" })
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Đăng nhập</button>
 
-    <div class="centered p-5">
-        @using (Html.BeginForm("Login", "Login", FormMethod.Post))
-        {
-        <div class="form-group shadow p-5">
-            @Html.AntiForgeryToken()
-            @Html.ValidationMessage("Error", new { @class = "text-danger" })
-            <br />
-            @Html.TextBoxFor(m => m.Code, new { @class = "form-control", placeholder = "Code", @required = "required" })
-
-            <br />
-            @Html.TextBoxFor(m => m.Pass, new { @class = "form-control", placeholder = "Password", @type = "password", @required = "required" })
-            <br />
-            <input type="submit" value="Đăng nhập" class="btn btn-success m-3" />
+                    }
+                </div>
+            </div>
         </div>
-        }
     </div>
-
 </body>
 </html>
+
+
+
+
+
