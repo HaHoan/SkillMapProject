@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="UMC_SKILLModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="UMC_SKILLModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Certification">
           <Key>
             <PropertyRef Name="ID" />
@@ -467,7 +467,8 @@
             <End Role="SkillLevel" EntitySet="SkillLevel" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="UMC_SKILLModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -533,6 +534,19 @@
           <NavigationProperty Name="Member2" Relationship="Self.FK_MemberUpdatorHis" FromRole="History" ToRole="Member" />
           <NavigationProperty Name="Skill" Relationship="Self.FK_SkillHis" FromRole="History" ToRole="Skill" />
         </EntityType>
+        <EntityType Name="HISTORY_SKILLMAP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="StaffCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MaBoMon" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="NgayThamGia" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="GhiChu" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MONHOC" Relationship="Self.FK_BoMonHisSkillMap" FromRole="HISTORY_SKILLMAP" ToRole="MONHOC" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_MemberHisSkillMap" FromRole="HISTORY_SKILLMAP" ToRole="Member" />
+        </EntityType>
         <EntityType Name="Member">
           <Key>
             <PropertyRef Name="ID" />
@@ -552,15 +566,33 @@
           <NavigationProperty Name="Histories" Relationship="Self.FK_MemberHis" FromRole="Member" ToRole="History" />
           <NavigationProperty Name="Histories1" Relationship="Self.FK_MemberMarkerHis" FromRole="Member" ToRole="History" />
           <NavigationProperty Name="Histories2" Relationship="Self.FK_MemberUpdatorHis" FromRole="Member" ToRole="History" />
+          <NavigationProperty Name="HISTORY_SKILLMAP" Relationship="Self.FK_MemberHisSkillMap" FromRole="Member" ToRole="HISTORY_SKILLMAP" />
           <NavigationProperty Name="OLYMPICS" Relationship="Self.FK_MEMBER_OLYMPIC" FromRole="Member" ToRole="OLYMPICS" />
+          <NavigationProperty Name="MONHOCs" Relationship="Self.FK_MemberCreateBy" FromRole="Member" ToRole="MONHOC" />
           <NavigationProperty Name="Skills" Relationship="Self.FK_MemberCreater" FromRole="Member" ToRole="Skill" />
+          <NavigationProperty Name="MONHOCs1" Relationship="Self.FK_MemberModifyBy" FromRole="Member" ToRole="MONHOC" />
+          <NavigationProperty Name="SKILLMAPs" Relationship="Self.FK_MemberSkillMap" FromRole="Member" ToRole="SKILLMAP" />
           <NavigationProperty Name="Skills1" Relationship="Self.FK_MemberUpdator" FromRole="Member" ToRole="Skill" />
           <NavigationProperty Name="Role_Member" Relationship="Self.FK_RoleMember" FromRole="Member" ToRole="Role_Member" />
-          <NavigationProperty Name="HISTORY_SKILLMAP" Relationship="UMC_SKILLModel.FK_MemberHisSkillMap" FromRole="Member" ToRole="HISTORY_SKILLMAP" />
-          <NavigationProperty Name="SKILLMAPs" Relationship="UMC_SKILLModel.FK_MemberSkillMap" FromRole="Member" ToRole="SKILLMAP" />
-          <NavigationProperty Name="MONHOCs" Relationship="UMC_SKILLModel.FK_MemberCreateBy" FromRole="Member" ToRole="MONHOC" />
-          <NavigationProperty Name="MONHOCs1" Relationship="UMC_SKILLModel.FK_MemberModifyBy" FromRole="Member" ToRole="MONHOC" />
-          </EntityType>
+        </EntityType>
+        <EntityType Name="MONHOC">
+          <Key>
+            <PropertyRef Name="MaBoMon" />
+          </Key>
+          <Property Name="MaBoMon" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="TenBoMon" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreateBy" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifyBy" Type="Int32" Nullable="false" />
+          <Property Name="ModifyDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LoaiMonHoc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Dept" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Removed" Type="Int32" />
+          <NavigationProperty Name="HISTORY_SKILLMAP" Relationship="Self.FK_BoMonHisSkillMap" FromRole="MONHOC" ToRole="HISTORY_SKILLMAP" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_MemberCreateBy" FromRole="MONHOC" ToRole="Member" />
+          <NavigationProperty Name="Member1" Relationship="Self.FK_MemberModifyBy" FromRole="MONHOC" ToRole="Member" />
+          <NavigationProperty Name="SKILLMAPs" Relationship="Self.FK_BoMonSkillMap" FromRole="MONHOC" ToRole="SKILLMAP" />
+        </EntityType>
         <EntityType Name="OLYMPIC">
           <Key>
             <PropertyRef Name="ID" />
@@ -610,6 +642,19 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="STT" Type="Int32" />
           <NavigationProperty Name="Skill" Relationship="Self.FK_SkillLevel" FromRole="SkillLevel" ToRole="Skill" />
+        </EntityType>
+        <EntityType Name="SKILLMAP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="StaffCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MaBoMon" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="NgayThamGia" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="GhiChu" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Member" Relationship="Self.FK_MemberSkillMap" FromRole="SKILLMAP" ToRole="Member" />
+          <NavigationProperty Name="MONHOC" Relationship="Self.FK_BoMonSkillMap" FromRole="SKILLMAP" ToRole="MONHOC" />
         </EntityType>
         <Association Name="FK_MemberCer">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
@@ -707,6 +752,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_BoMonHisSkillMap">
+          <End Role="MONHOC" Type="Self.MONHOC" Multiplicity="1" />
+          <End Role="HISTORY_SKILLMAP" Type="Self.HISTORY_SKILLMAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MONHOC">
+              <PropertyRef Name="MaBoMon" />
+            </Principal>
+            <Dependent Role="HISTORY_SKILLMAP">
+              <PropertyRef Name="MaBoMon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberHisSkillMap">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="HISTORY_SKILLMAP" Type="Self.HISTORY_SKILLMAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HISTORY_SKILLMAP">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MEMBER_OLYMPIC">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="OLYMPICS" Type="Self.OLYMPIC" Multiplicity="*" />
@@ -719,6 +788,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MemberCreateBy">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="MONHOC" Type="Self.MONHOC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MONHOC">
+              <PropertyRef Name="CreateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MemberCreater">
           <End Role="Member" Type="Self.Member" Multiplicity="1" />
           <End Role="Skill" Type="Self.Skill" Multiplicity="*" />
@@ -728,6 +809,30 @@
             </Principal>
             <Dependent Role="Skill">
               <PropertyRef Name="Creator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberModifyBy">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="MONHOC" Type="Self.MONHOC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MONHOC">
+              <PropertyRef Name="ModifyBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberSkillMap">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="SKILLMAP" Type="Self.SKILLMAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SKILLMAP">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -755,6 +860,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_BoMonSkillMap">
+          <End Role="MONHOC" Type="Self.MONHOC" Multiplicity="1" />
+          <End Role="SKILLMAP" Type="Self.SKILLMAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MONHOC">
+              <PropertyRef Name="MaBoMon" />
+            </Principal>
+            <Dependent Role="SKILLMAP">
+              <PropertyRef Name="MaBoMon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SkillLevel">
           <End Role="Skill" Type="Self.Skill" Multiplicity="1" />
           <End Role="SkillLevel" Type="Self.SkillLevel" Multiplicity="*" />
@@ -770,11 +887,14 @@
         <EntityContainer Name="UMC_SKILLEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Certifications" EntityType="Self.Certification" />
           <EntitySet Name="Histories" EntityType="Self.History" />
+          <EntitySet Name="HISTORY_SKILLMAP" EntityType="Self.HISTORY_SKILLMAP" />
           <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="MONHOCs" EntityType="Self.MONHOC" />
           <EntitySet Name="OLYMPICS" EntityType="Self.OLYMPIC" />
           <EntitySet Name="Role_Member" EntityType="Self.Role_Member" />
           <EntitySet Name="Skills" EntityType="Self.Skill" />
           <EntitySet Name="SkillLevels" EntityType="Self.SkillLevel" />
+          <EntitySet Name="SKILLMAPs" EntityType="Self.SKILLMAP" />
           <AssociationSet Name="FK_MemberCer" Association="Self.FK_MemberCer">
             <End Role="Member" EntitySet="Members" />
             <End Role="Certification" EntitySet="Certifications" />
@@ -807,13 +927,33 @@
             <End Role="Skill" EntitySet="Skills" />
             <End Role="History" EntitySet="Histories" />
           </AssociationSet>
+          <AssociationSet Name="FK_BoMonHisSkillMap" Association="Self.FK_BoMonHisSkillMap">
+            <End Role="MONHOC" EntitySet="MONHOCs" />
+            <End Role="HISTORY_SKILLMAP" EntitySet="HISTORY_SKILLMAP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberHisSkillMap" Association="Self.FK_MemberHisSkillMap">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="HISTORY_SKILLMAP" EntitySet="HISTORY_SKILLMAP" />
+          </AssociationSet>
           <AssociationSet Name="FK_MEMBER_OLYMPIC" Association="Self.FK_MEMBER_OLYMPIC">
             <End Role="Member" EntitySet="Members" />
             <End Role="OLYMPICS" EntitySet="OLYMPICS" />
           </AssociationSet>
+          <AssociationSet Name="FK_MemberCreateBy" Association="Self.FK_MemberCreateBy">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="MONHOC" EntitySet="MONHOCs" />
+          </AssociationSet>
           <AssociationSet Name="FK_MemberCreater" Association="Self.FK_MemberCreater">
             <End Role="Member" EntitySet="Members" />
             <End Role="Skill" EntitySet="Skills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberModifyBy" Association="Self.FK_MemberModifyBy">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="MONHOC" EntitySet="MONHOCs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberSkillMap" Association="Self.FK_MemberSkillMap">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="SKILLMAP" EntitySet="SKILLMAPs" />
           </AssociationSet>
           <AssociationSet Name="FK_MemberUpdator" Association="Self.FK_MemberUpdator">
             <End Role="Member" EntitySet="Members" />
@@ -823,155 +963,16 @@
             <End Role="Role_Member" EntitySet="Role_Member" />
             <End Role="Member" EntitySet="Members" />
           </AssociationSet>
+          <AssociationSet Name="FK_BoMonSkillMap" Association="Self.FK_BoMonSkillMap">
+            <End Role="MONHOC" EntitySet="MONHOCs" />
+            <End Role="SKILLMAP" EntitySet="SKILLMAPs" />
+          </AssociationSet>
           <AssociationSet Name="FK_SkillLevel" Association="Self.FK_SkillLevel">
             <End Role="Skill" EntitySet="Skills" />
             <End Role="SkillLevel" EntitySet="SkillLevels" />
           </AssociationSet>
-          <EntitySet Name="HISTORY_SKILLMAP" EntityType="UMC_SKILLModel.HISTORY_SKILLMAP" />
-          <EntitySet Name="SKILLMAPs" EntityType="UMC_SKILLModel.SKILLMAP" />
-          <AssociationSet Name="FK_MemberHisSkillMap" Association="UMC_SKILLModel.FK_MemberHisSkillMap">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="HISTORY_SKILLMAP" EntitySet="HISTORY_SKILLMAP" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MemberSkillMap" Association="UMC_SKILLModel.FK_MemberSkillMap">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="SKILLMAP" EntitySet="SKILLMAPs" />
-          </AssociationSet>
-          <EntitySet Name="MONHOCs" EntityType="UMC_SKILLModel.MONHOC" />
-          <AssociationSet Name="FK_BoMonHisSkillMap" Association="UMC_SKILLModel.FK_BoMonHisSkillMap">
-            <End Role="MONHOC" EntitySet="MONHOCs" />
-            <End Role="HISTORY_SKILLMAP" EntitySet="HISTORY_SKILLMAP" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MemberCreateBy" Association="UMC_SKILLModel.FK_MemberCreateBy">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="MONHOC" EntitySet="MONHOCs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MemberModifyBy" Association="UMC_SKILLModel.FK_MemberModifyBy">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="MONHOC" EntitySet="MONHOCs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BoMonSkillMap" Association="UMC_SKILLModel.FK_BoMonSkillMap">
-            <End Role="MONHOC" EntitySet="MONHOCs" />
-            <End Role="SKILLMAP" EntitySet="SKILLMAPs" />
-          </AssociationSet>
-          </EntityContainer>
-        <EntityType Name="HISTORY_SKILLMAP">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="StaffCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MaBoMon" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="NgayThamGia" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="GhiChu" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Member" Relationship="UMC_SKILLModel.FK_MemberHisSkillMap" FromRole="HISTORY_SKILLMAP" ToRole="Member" />
-          <NavigationProperty Name="MONHOC" Relationship="UMC_SKILLModel.FK_BoMonHisSkillMap" FromRole="HISTORY_SKILLMAP" ToRole="MONHOC" />
-        </EntityType>
-        <EntityType Name="SKILLMAP">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="StaffCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MaBoMon" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="NgayThamGia" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="GhiChu" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Member" Relationship="UMC_SKILLModel.FK_MemberSkillMap" FromRole="SKILLMAP" ToRole="Member" />
-          <NavigationProperty Name="MONHOC" Relationship="UMC_SKILLModel.FK_BoMonSkillMap" FromRole="SKILLMAP" ToRole="MONHOC" />
-        </EntityType>
-        <Association Name="FK_MemberHisSkillMap">
-          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="UMC_SKILLModel.HISTORY_SKILLMAP" Role="HISTORY_SKILLMAP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="HISTORY_SKILLMAP">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MemberSkillMap">
-          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="UMC_SKILLModel.SKILLMAP" Role="SKILLMAP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SKILLMAP">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="MONHOC">
-          <Key>
-            <PropertyRef Name="MaBoMon" />
-          </Key>
-          <Property Name="MaBoMon" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="TenBoMon" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="CreateBy" Type="Int32" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifyBy" Type="Int32" Nullable="false" />
-          <Property Name="ModifyDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="LoaiMonHoc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Dept" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Removed" Type="Int32" />
-          <NavigationProperty Name="HISTORY_SKILLMAP" Relationship="UMC_SKILLModel.FK_BoMonHisSkillMap" FromRole="MONHOC" ToRole="HISTORY_SKILLMAP" />
-          <NavigationProperty Name="Member" Relationship="UMC_SKILLModel.FK_MemberCreateBy" FromRole="MONHOC" ToRole="Member" />
-          <NavigationProperty Name="Member1" Relationship="UMC_SKILLModel.FK_MemberModifyBy" FromRole="MONHOC" ToRole="Member" />
-          <NavigationProperty Name="SKILLMAPs" Relationship="UMC_SKILLModel.FK_BoMonSkillMap" FromRole="MONHOC" ToRole="SKILLMAP" />
-        </EntityType>
-        <Association Name="FK_BoMonHisSkillMap">
-          <End Type="UMC_SKILLModel.MONHOC" Role="MONHOC" Multiplicity="1" />
-          <End Type="UMC_SKILLModel.HISTORY_SKILLMAP" Role="HISTORY_SKILLMAP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MONHOC">
-              <PropertyRef Name="MaBoMon" />
-            </Principal>
-            <Dependent Role="HISTORY_SKILLMAP">
-              <PropertyRef Name="MaBoMon" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MemberCreateBy">
-          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="UMC_SKILLModel.MONHOC" Role="MONHOC" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="MONHOC">
-              <PropertyRef Name="CreateBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MemberModifyBy">
-          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="UMC_SKILLModel.MONHOC" Role="MONHOC" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="MONHOC">
-              <PropertyRef Name="ModifyBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BoMonSkillMap">
-          <End Type="UMC_SKILLModel.MONHOC" Role="MONHOC" Multiplicity="1" />
-          <End Type="UMC_SKILLModel.SKILLMAP" Role="SKILLMAP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MONHOC">
-              <PropertyRef Name="MaBoMon" />
-            </Principal>
-            <Dependent Role="SKILLMAP">
-              <PropertyRef Name="MaBoMon" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        </Schema>
+        </EntityContainer>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1033,6 +1034,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="HISTORY_SKILLMAP">
+            <EntityTypeMapping TypeName="UMC_SKILLModel.HISTORY_SKILLMAP">
+              <MappingFragment StoreEntitySet="HISTORY_SKILLMAP">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
+                <ScalarProperty Name="MaBoMon" ColumnName="MaBoMon" />
+                <ScalarProperty Name="NgayThamGia" ColumnName="NgayThamGia" />
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="UMC_SKILLModel.Member">
               <MappingFragment StoreEntitySet="Member">
@@ -1045,6 +1058,21 @@
                 <ScalarProperty Name="DateEnter" ColumnName="DateEnter" />
                 <ScalarProperty Name="Removed" ColumnName="Removed" />
                 <ScalarProperty Name="Pass" ColumnName="Pass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MONHOCs">
+            <EntityTypeMapping TypeName="UMC_SKILLModel.MONHOC">
+              <MappingFragment StoreEntitySet="MONHOC">
+                <ScalarProperty Name="MaBoMon" ColumnName="MaBoMon" />
+                <ScalarProperty Name="TenBoMon" ColumnName="TenBoMon" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="LoaiMonHoc" ColumnName="LoaiMonHoc" />
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1094,42 +1122,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="HISTORY_SKILLMAP">
-            <EntityTypeMapping TypeName="UMC_SKILLModel.HISTORY_SKILLMAP">
-              <MappingFragment StoreEntitySet="HISTORY_SKILLMAP">
-                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
-                <ScalarProperty Name="NgayThamGia" ColumnName="NgayThamGia" />
-                <ScalarProperty Name="MaBoMon" ColumnName="MaBoMon" />
-                <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SKILLMAPs">
             <EntityTypeMapping TypeName="UMC_SKILLModel.SKILLMAP">
               <MappingFragment StoreEntitySet="SKILLMAP">
-                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
-                <ScalarProperty Name="NgayThamGia" ColumnName="NgayThamGia" />
-                <ScalarProperty Name="MaBoMon" ColumnName="MaBoMon" />
-                <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MONHOCs">
-            <EntityTypeMapping TypeName="UMC_SKILLModel.MONHOC">
-              <MappingFragment StoreEntitySet="MONHOC">
-                <ScalarProperty Name="Removed" ColumnName="Removed" />
-                <ScalarProperty Name="Dept" ColumnName="Dept" />
-                <ScalarProperty Name="LoaiMonHoc" ColumnName="LoaiMonHoc" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="TenBoMon" ColumnName="TenBoMon" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
                 <ScalarProperty Name="MaBoMon" ColumnName="MaBoMon" />
+                <ScalarProperty Name="NgayThamGia" ColumnName="NgayThamGia" />
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

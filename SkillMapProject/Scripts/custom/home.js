@@ -1,7 +1,7 @@
 ﻿const SUCCESS = 1;
 const ERROR = 2;
 $(function () {
-    GetSkillOfStaffList();
+    GetSkillOfStaffListWithSearch();
     getDate();
     addLevelForSkill($('#skill_selected').val());
     $('#skill_selected').change(function () {
@@ -9,6 +9,9 @@ $(function () {
     });
     $('#capdo_selected').change(function () {
         changeLevelByCapDo();
+    });
+    $('#dept').change(function () {
+        GetSkillOfStaffListWithDept();
     });
 })
 function changeLevelByCapDo() {
@@ -29,12 +32,28 @@ function addLevelForSkill(levels) {
     });
     changeLevelByCapDo();
 }
-function GetSkillOfStaffList() {
+function GetSkillOfStaffListWithSearch() {
     var search = $('#search').val();
     $(".loading").show();
     $.ajax({
-        url: "/Home/GetSkillOfStaffList",
-        data: { search: search },
+        url: "/Home/GetSkillOfStaffListWithSearch",
+        data: { search: search},
+        success: function (response) {
+            $('#list_skill_of_staff').html(response.body);
+            $(".loading").hide();
+        },
+        error: function (e) {
+            console.log(e);
+            $(".loading").hide();
+        }
+    });
+}
+function GetSkillOfStaffListWithDept() {
+    var dept = $('#dept').find('option:selected').attr("name");
+    $(".loading").show();
+    $.ajax({
+        url: "/Home/GetSkillOfStaffListWithDept",
+        data: { dept: dept },
         success: function (response) {
             $('#list_skill_of_staff').html(response.body);
             $(".loading").hide();
@@ -52,7 +71,7 @@ function addSkillForStaff(userId) {
 }
 $("#search").on("keydown", function (event) {
     if (event.which == 13) {
-        GetSkillOfStaffList();
+        GetSkillOfStaffListWithSearch();
     }
 
 });
@@ -73,7 +92,7 @@ function submitSkillForStaff() {
         },
         success: function (response) {
             if (response.body == 'OK') {
-                GetSkillOfStaffList();
+                GetSkillOfStaffListWithSearch();
                 $('#modalAddSkillForStaff').modal('hide');
             } else if (response.body == "NG") {
                 alert("Có lỗi xảy ra!");

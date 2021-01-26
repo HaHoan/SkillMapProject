@@ -33,6 +33,27 @@ namespace SkillMapProject.Controllers
 
                     // Chỉ được thêm những chứng chỉ của phòng ban mình
                     ViewBag.SkillLevels = db.Skills.Include("SkillLevels").Where(m => m.Removed == 0).ToList();
+                    using (var dbGA = new GA_UMCEntities())
+                    {
+                        ViewBag.Depts = dbGA.MS_Department.ToList();
+                    }
+                    var members = db.Members.ToList();
+                    var list = new HashSet<string>();
+                    foreach(var m in members)
+                    {
+                        list.Add(m.Code);
+                    }
+                    foreach(var code in list)
+                    {
+                        var mem = members.Where(m => m.Code == code).ToList();
+                        if(mem.Count > 1)
+                        {
+                            Member a = mem[1];
+                            db.Members.Remove(db.Members.Where(m => m.ID == a.ID).FirstOrDefault());
+                            db.SaveChanges();
+                        }
+                        
+                    }
                 }
                 return View();
             }
@@ -47,26 +68,14 @@ namespace SkillMapProject.Controllers
             }
             else return RedirectToAction("Index", "Login");
         }
-
-        public JsonResult GetSkillOfStaffList(string search)
+        public JsonResult GetSkills(List<Member> list)
         {
             var user = SessionHelper.Get<Member>(Constant.SESSION_LOGIN);
             if (user == null) return Json(new { body = "" }, JsonRequestBehavior.AllowGet);
             using (var db = new UMC_SKILLEntities())
             {
-                var listUser = new List<Member>();
-                if (string.IsNullOrEmpty(search))
-                {
-                    listUser = db.Members.ToList();
-
-                }
-                else
-                {
-                    listUser = db.Members.Where(m => m.Code == search).ToList();
-
-                }
                 var listCerByUser = new List<CertificateByUser>();
-                foreach (var u in listUser)
+                foreach (var u in list)
                 {
                     var skills = db.Certifications.Include("Skill").Where(m => m.UserID == u.ID && m.Skill.Removed == 0).ToList();
                     var allSkill = db.Skills.Where(m => m.Removed == 0).ToList();
@@ -97,8 +106,45 @@ namespace SkillMapProject.Controllers
                 }
                 else return Json(new { body = "" }, JsonRequestBehavior.AllowGet);
             }
-
         }
+        public JsonResult GetSkillOfStaffListWithSearch(string search)
+        {
+            var user = SessionHelper.Get<Member>(Constant.SESSION_LOGIN);
+            if (user == null) return Json(new { body = "" }, JsonRequestBehavior.AllowGet);
+            using (var db = new UMC_SKILLEntities())
+            {
+                var listUser = new List<Member>();
+                if (string.IsNullOrEmpty(search))
+                {
+                    listUser = db.Members.Take(10).ToList();
+                }
+                else
+                {
+                    listUser = db.Members.Where(m => m.Code == search).ToList();
+                }
+                return GetSkills(listUser);
+            }
+        }
+
+        public JsonResult GetSkillOfStaffListWithDept(string dept)
+        {
+            var user = SessionHelper.Get<Member>(Constant.SESSION_LOGIN);
+            if (user == null) return Json(new { body = "" }, JsonRequestBehavior.AllowGet);
+            using (var db = new UMC_SKILLEntities())
+            {
+                var listUser = new List<Member>();
+                if (string.IsNullOrEmpty(dept) || dept == Constant.DEPT_ALL)
+                {
+                    listUser = db.Members.Take(10).ToList();
+                }
+                else
+                {
+                    listUser = db.Members.Where(m => m.Dept == dept).ToList();
+                }
+                return GetSkills(listUser);
+            }
+        }
+
 
         [HttpGet]
         public ActionResult SuaChungChiChoNV(int ID = 0)
@@ -141,10 +187,12 @@ namespace SkillMapProject.Controllers
                     {
                         var user = SessionHelper.Get<Member>(Constant.SESSION_LOGIN);
                         var member = db.Members.Where(m => m.Code == cer.Code).FirstOrDefault();
+
                         if (member == null)
                         {
                             ModelState.AddModelError("Error", "Không tồn tại user " + cer.Code);
                             ViewBag.Skills = db.Skills.Where(m => m.Removed == 0).ToList();
+                            ViewBag.SkillLevels = db.SkillLevels.Where(m => m.SkillID == cer.SkillID).ToList();
                             return View(cer);
                         }
                         else
@@ -157,11 +205,13 @@ namespace SkillMapProject.Controllers
                                 {
                                     ModelState.AddModelError("Error", "Nhân viên " + cer.Code + " Đã học môn này rồi!");
                                     ViewBag.Skills = db.Skills.Where(m => m.Removed == 0).ToList();
+                                    ViewBag.SkillLevels = db.SkillLevels.Where(m => m.SkillID == cer.SkillID).ToList();
                                     return View(cer);
                                 }
                                 else
                                 {
                                     ModelState.AddModelError("Error", "Không tồn tại chứng chỉ này!");
+                                    ViewBag.SkillLevels = db.SkillLevels.Where(m => m.SkillID == cer.SkillID).ToList();
                                     return View(cer);
                                 }
 
@@ -186,6 +236,7 @@ namespace SkillMapProject.Controllers
                                         if (cer.NgayCap == null)
                                         {
                                             ModelState.AddModelError("Error", "Bạn cần chọn Ngày Cấp!");
+                                            ViewBag.SkillLevels = db.SkillLevels.Where(m => m.SkillID == cer.SkillID).ToList();
                                             return View(cer);
                                         }
                                         cerInDb.CapDo = cer.CapDo;
@@ -196,6 +247,7 @@ namespace SkillMapProject.Controllers
                                         if (cer.NgayNangCap == null)
                                         {
                                             ModelState.AddModelError("Error", "Bạn cần chọn Ngày Nâng Cấp!");
+                                            ViewBag.SkillLevels = db.SkillLevels.Where(m => m.SkillID == cer.SkillID).ToList();
                                             return View(cer);
                                         }
                                         cerInDb.NangCap = cer.NangCap;
@@ -206,6 +258,7 @@ namespace SkillMapProject.Controllers
                                         if (cer.NgayCNNguoiDaoTao == null)
                                         {
                                             ModelState.AddModelError("Error", "Bạn cần chọn Ngày CN Người Đào tạo!");
+                                            ViewBag.SkillLevels = db.SkillLevels.Where(m => m.SkillID == cer.SkillID).ToList();
                                             return View(cer);
                                         }
                                         cerInDb.CNNguoiDaoTao = cer.CNNguoiDaoTao;
@@ -217,6 +270,7 @@ namespace SkillMapProject.Controllers
                                 {
                                     ModelState.AddModelError("Error", "Không tồn tại chứng chỉ này cho nhân viên!");
                                     ViewBag.Skills = db.Skills.Where(m => m.Removed == 0).ToList();
+                                    ViewBag.SkillLevels = db.SkillLevels.Where(m => m.SkillID == cer.SkillID).ToList();
                                     return View(cer);
                                 }
                             }

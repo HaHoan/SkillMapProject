@@ -12,7 +12,22 @@
     <img src="~/Resources/loading.gif" />
 </div>
 <div>
-    <input type="text" placeholder="Nhập mã nhân viên" class="form-control mb-3" id="search"/>
+    <div class="row">
+        <input type="text" placeholder="Nhập mã nhân viên" class="form-control mb-3 col-2 mr-3" id="search" />
+        <select class="form-control col-2" id="dept">
+            @if (ViewBag.Depts != null)
+            {
+                <option name="Default">Chọn Phòng ban</option>
+                foreach (var dept in ViewBag.Depts)
+                {
+                    <option name="@dept.DeptName">@dept.DeptName</option>
+                }
+            }
+
+
+        </select>
+    </div>
+   
     <table class="table table-main table-bordered mt-2">
         <thead>
             <tr>
