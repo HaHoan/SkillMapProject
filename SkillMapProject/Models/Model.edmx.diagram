@@ -34,6 +34,7 @@
         <AssociationConnector Association="UMC_SKILLModel.FK_RoleMember" ManuallyRouted="false" />
         <AssociationConnector Association="UMC_SKILLModel.FK_BoMonSkillMap" ManuallyRouted="false" />
         <AssociationConnector Association="UMC_SKILLModel.FK_SkillLevel" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="UMC_SKILLModel.LOG" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

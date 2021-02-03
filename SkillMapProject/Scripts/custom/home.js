@@ -37,7 +37,7 @@ function GetSkillOfStaffListWithSearch() {
     $(".loading").show();
     $.ajax({
         url: "/Home/GetSkillOfStaffListWithSearch",
-        data: { search: search},
+        data: { search: search },
         success: function (response) {
             $('#list_skill_of_staff').html(response.body);
             $(".loading").hide();
@@ -102,6 +102,25 @@ function submitSkillForStaff() {
         },
         error: function (e) {
 
+        }
+    });
+}
+
+function UpdateNewStaff() {
+    $(".loading").show();
+    $.ajax({
+        url: "/Home/UpdateNewStaff",
+        type: "GET",
+        success: function (response) {
+            if (response.body == "NG") {
+                alert("Có lỗi xảy ra!");
+            } else {
+                alert(response.body);
+            }
+            $(".loading").hide();
+        },
+        error: function (e) {
+            alert(e);
         }
     });
 }

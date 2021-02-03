@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.1209
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillMapProject", "SkillMapProject\SkillMapProject.csproj", "{C863674C-18D7-481A-87BF-EF0DF69C0CB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormProject", "..\..\..\FormProject-master\FormProject\FormProject.csproj", "{F38F2F88-6E04-4DB9-82FC-1C4E06968B41}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationSkills", "..\..\..\..\..\..\3. Projects\Works UMC\Edu-copy\Education Skills Manager\EducationSkills\EducationSkills.csproj", "{ACF17574-CF19-4D3A-B6A7-FDFCC459BB1B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{C863674C-18D7-481A-87BF-EF0DF69C0CB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C863674C-18D7-481A-87BF-EF0DF69C0CB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C863674C-18D7-481A-87BF-EF0DF69C0CB1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F38F2F88-6E04-4DB9-82FC-1C4E06968B41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F38F2F88-6E04-4DB9-82FC-1C4E06968B41}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F38F2F88-6E04-4DB9-82FC-1C4E06968B41}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F38F2F88-6E04-4DB9-82FC-1C4E06968B41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACF17574-CF19-4D3A-B6A7-FDFCC459BB1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACF17574-CF19-4D3A-B6A7-FDFCC459BB1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACF17574-CF19-4D3A-B6A7-FDFCC459BB1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACF17574-CF19-4D3A-B6A7-FDFCC459BB1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

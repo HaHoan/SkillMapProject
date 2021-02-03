@@ -35,5 +35,6 @@ namespace SkillMapProject.Models
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<SkillLevel> SkillLevels { get; set; }
         public virtual DbSet<SKILLMAP> SKILLMAPs { get; set; }
+        public virtual DbSet<LOG> LOGS { get; set; }
     }
 }

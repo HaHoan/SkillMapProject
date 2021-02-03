@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="UMC_SKILLModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="UMC_SKILLModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Certification">
           <Key>
             <PropertyRef Name="ID" />
@@ -69,6 +69,16 @@
           <Property Name="MaBoMon" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="NgayThamGia" Type="datetime" Nullable="false" />
           <Property Name="GhiChu" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="LOGS">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="LastUpdateTime" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LastUpdateTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -390,6 +400,12 @@
           <EntitySet Name="Skill" EntityType="Self.Skill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SkillLevel" EntityType="Self.SkillLevel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SKILLMAP" EntityType="Self.SKILLMAP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LOGS" EntityType="Self.LOGS" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [LOGS].[Id] AS [Id], 
+    [LOGS].[LastUpdateTime] AS [LastUpdateTime]
+    FROM [dbo].[LOGS] AS [LOGS]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_BoMonHisSkillMap" Association="Self.FK_BoMonHisSkillMap">
             <End Role="MONHOC" EntitySet="MONHOC" />
             <End Role="HISTORY_SKILLMAP" EntitySet="HISTORY_SKILLMAP" />
@@ -467,8 +483,7 @@
             <End Role="SkillLevel" EntitySet="SkillLevel" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="UMC_SKILLModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -971,7 +986,16 @@
             <End Role="Skill" EntitySet="Skills" />
             <End Role="SkillLevel" EntitySet="SkillLevels" />
           </AssociationSet>
+          <EntitySet Name="LOGS" EntityType="UMC_SKILLModel.LOG" />
         </EntityContainer>
+        <EntityType Name="LOG">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="LastUpdateTime" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastUpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1131,6 +1155,14 @@
                 <ScalarProperty Name="MaBoMon" ColumnName="MaBoMon" />
                 <ScalarProperty Name="NgayThamGia" ColumnName="NgayThamGia" />
                 <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LOGS">
+            <EntityTypeMapping TypeName="UMC_SKILLModel.LOG">
+              <MappingFragment StoreEntitySet="LOGS">
+                <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

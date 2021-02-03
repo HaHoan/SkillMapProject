@@ -2,6 +2,8 @@
 using SkillMapProject.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,23 +39,7 @@ namespace SkillMapProject.Controllers
                     {
                         ViewBag.Depts = dbGA.MS_Department.ToList();
                     }
-                    var members = db.Members.ToList();
-                    var list = new HashSet<string>();
-                    foreach(var m in members)
-                    {
-                        list.Add(m.Code);
-                    }
-                    foreach(var code in list)
-                    {
-                        var mem = members.Where(m => m.Code == code).ToList();
-                        if(mem.Count > 1)
-                        {
-                            Member a = mem[1];
-                            db.Members.Remove(db.Members.Where(m => m.ID == a.ID).FirstOrDefault());
-                            db.SaveChanges();
-                        }
-                        
-                    }
+
                 }
                 return View();
             }
@@ -124,6 +110,52 @@ namespace SkillMapProject.Controllers
                 }
                 return GetSkills(listUser);
             }
+        }
+        public JsonResult UpdateNewStaff()
+        {
+            try
+            {
+                var user = SessionHelper.Get<Member>(Constant.SESSION_LOGIN);
+                if (user == null) return Json(new { body = "" }, JsonRequestBehavior.AllowGet);
+                using (var db = new UMC_SKILLEntities())
+                {
+                    var lastUpdateTime = db.LOGS.FirstOrDefault().LastUpdateTime;
+                    GA_UMCEntities context = new GA_UMCEntities();
+                    object[] param =
+                    {
+                    new SqlParameter() { ParameterName = "@enterdate", Value = lastUpdateTime, SqlDbType = SqlDbType.DateTime},
+                };
+                    var employees = context.Database.SqlQuery<Employees>("EXEC [dbo].[sp_Get_Staff_FROM] @enterdate", param).ToList();
+                    foreach (var employee in employees)
+                    {
+                        if (db.Members.Where(m => m.Code == employee.StaffCode).FirstOrDefault() == null)
+                        {
+                            var mem = new Member()
+                            {
+                                Code = employee.StaffCode,
+                                Name = employee.FullName,
+                                Dept = employee.DeptCode,
+                                RoleID = 1,
+                                Removed = 0,
+                                Pass = "umcvn",
+                                Pos = employee.PosName
+                            };
+                            if (employee.EntryDate is DateTime date)
+                            {
+                                mem.DateEnter = date;
+                            }
+                            db.Members.Add(mem);
+                            db.SaveChanges();
+                        }
+                    }
+                    return Json(new { body = "OK" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { body = "NG" }, JsonRequestBehavior.AllowGet);
+            }
+            
         }
 
         public JsonResult GetSkillOfStaffListWithDept(string dept)

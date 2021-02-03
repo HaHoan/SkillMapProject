@@ -9,9 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     <link href="~/Content/fontawesome-free/css/all.min.css" rel="stylesheet" />
-    @Styles.Render("~/Content/css")
+   @* @Styles.Render("~/Content/css")*@
     @Scripts.Render("~/bundles/modernizr")
-    @RenderSection("heads", required: false)                                  
+    @RenderSection("heads", required: false)
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link href="~/Content/css/common.css" rel="stylesheet" />
 </head>
