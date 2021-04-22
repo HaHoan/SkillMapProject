@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,24 +23,32 @@ namespace SkillMapProject.Controllers
             {
                 using (var db = new UMC_SKILLEntities())
                 {
+                    var listAllUsers = db.Members.ToList();
                     if (Constant.SPECIAL_DEPT.Contains(user.Dept))
                     {
                         // nếu thuộc phòng ban edu thì được thêm cho tất cả nhân viên
-                        ViewBag.Users = db.Members.ToList();
+                        ViewBag.Users = listAllUsers;
                     }
                     else
                     {
                         // còn không chỉ được thêm cho nhân viên phòng mình
-                        ViewBag.Users = db.Members.Where(m => m.Dept == user.Dept).ToList();
+                        ViewBag.Users = listAllUsers.Where(m => m.Dept == user.Dept).ToList();
                     }
 
                     // Chỉ được thêm những chứng chỉ của phòng ban mình
                     ViewBag.SkillLevels = db.Skills.Include("SkillLevels").Where(m => m.Removed == 0).ToList();
-                    using (var dbGA = new GA_UMCEntities())
+                    var userGroups = from p in listAllUsers
+                                     group p.ID by p.Dept into g
+                                     select new { Dept = g.Key, users = g.ToList() };
+                    var listDept = new List<MS_Department>();
+                    foreach (var dept in userGroups)
                     {
-                        ViewBag.Depts = dbGA.MS_Department.ToList();
+                        listDept.Add(new MS_Department()
+                        {
+                            DeptName = dept.Dept
+                        });
                     }
-
+                    ViewBag.Depts = listDept;
                 }
                 return View();
             }
@@ -102,11 +111,11 @@ namespace SkillMapProject.Controllers
                 var listUser = new List<Member>();
                 if (string.IsNullOrEmpty(search))
                 {
-                    listUser = db.Members.Take(10).ToList();
+                    listUser = db.Members.Where(m => m.Removed == 0).Take(10).ToList();
                 }
                 else
                 {
-                    listUser = db.Members.Where(m => m.Code == search).ToList();
+                    listUser = db.Members.Where(m => m.Code == search && m.Removed == 0).ToList();
                 }
                 return GetSkills(listUser);
             }
@@ -119,16 +128,30 @@ namespace SkillMapProject.Controllers
                 if (user == null) return Json(new { body = "" }, JsonRequestBehavior.AllowGet);
                 using (var db = new UMC_SKILLEntities())
                 {
-                    var lastUpdateTime = db.LOGS.FirstOrDefault().LastUpdateTime;
                     GA_UMCEntities context = new GA_UMCEntities();
                     object[] param =
+                        {
+                            new SqlParameter() { ParameterName = "@deptCode", Value = DBNull.Value, SqlDbType = SqlDbType.NVarChar},
+                            new SqlParameter("@Out_Parameter", SqlDbType.Int)
+                            {
+                                Direction = ParameterDirection.Output
+                            }
+                        };
+                    var reports = context.Database.SqlQuery<Employees>("EXEC [dbo].[sp_Get_All_Staff] @deptCode", param).ToList();
+                    var list = db.Members.ToList();
+                    foreach (var mem in list)
                     {
-                    new SqlParameter() { ParameterName = "@enterdate", Value = lastUpdateTime, SqlDbType = SqlDbType.DateTime},
-                };
-                    var employees = context.Database.SqlQuery<Employees>("EXEC [dbo].[sp_Get_Staff_FROM] @enterdate", param).ToList();
-                    foreach (var employee in employees)
+                        if (reports.Where(m => m.StaffCode == mem.Code).FirstOrDefault() == null)
+                        {
+                            var memInDb = db.Members.Where(m => m.Code == mem.Code).FirstOrDefault();
+                            memInDb.Removed = 1;
+                            db.SaveChanges();
+                        }
+                    }
+                    foreach (var employee in reports)
                     {
-                        if (db.Members.Where(m => m.Code == employee.StaffCode).FirstOrDefault() == null)
+                        var eInSkillMap = db.Members.Where(m => m.Code == employee.StaffCode).FirstOrDefault();
+                        if (eInSkillMap == null)
                         {
                             var mem = new Member()
                             {
@@ -147,7 +170,24 @@ namespace SkillMapProject.Controllers
                             db.Members.Add(mem);
                             db.SaveChanges();
                         }
+                        else
+                        {
+                            bool isChanged = false;
+                            if (eInSkillMap.Dept != employee.DeptCode)
+                            {
+                                eInSkillMap.Dept = employee.DeptCode;
+                                isChanged = true;
+                            }
+                            if (eInSkillMap.Pos != employee.PosName)
+                            {
+                                eInSkillMap.Pos = employee.PosName;
+                                isChanged = true;
+                            }
+                            if (isChanged)
+                                db.SaveChanges();
+                        }
                     }
+
                     return Json(new { body = "OK" }, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -155,7 +195,7 @@ namespace SkillMapProject.Controllers
             {
                 return Json(new { body = "NG" }, JsonRequestBehavior.AllowGet);
             }
-            
+
         }
 
         public JsonResult GetSkillOfStaffListWithDept(string dept)
@@ -167,11 +207,11 @@ namespace SkillMapProject.Controllers
                 var listUser = new List<Member>();
                 if (string.IsNullOrEmpty(dept) || dept == Constant.DEPT_ALL)
                 {
-                    listUser = db.Members.Take(10).ToList();
+                    listUser = db.Members.Where(m => m.Removed == 0).Take(10).ToList();
                 }
                 else
                 {
-                    listUser = db.Members.Where(m => m.Dept == dept).ToList();
+                    listUser = db.Members.Where(m => m.Dept == dept && m.Removed == 0).Take(200).ToList();
                 }
                 return GetSkills(listUser);
             }
@@ -502,6 +542,37 @@ namespace SkillMapProject.Controllers
             }
 
         }
+
+        public async Task<ActionResult> Export(int SkillID = 0)
+        {
+            MemoryStream bufferStream = null;
+            var db = new UMC_SKILLEntities();
+            await Task.Run(async () =>
+            {
+               
+                var list = db.Certifications.Include("Member").Include("Skill").Where(m => m.SkillID == SkillID).ToList();
+              
+                var stream = await ExportUtils.CreateExcelFile(null, list);
+                // Tạo buffer memory strean để hứng file excel
+                bufferStream = stream as MemoryStream;
+                Console.WriteLine("task...");
+
+            });
+            Skill skill = db.Skills.Where(m => m.ID == SkillID).FirstOrDefault();
+            
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            // Dòng này rất quan trọng, vì chạy trên firefox hay IE thì dòng này sẽ hiện Save As dialog cho người dùng chọn thư mục để lưu
+            // File name của Excel này là ExcelDemo
+            Response.AddHeader("Content-Disposition", "attachment; filename="+skill.Name+"-"+DateTime.Now.ToDateString()+".xlsx");
+            // Lưu file excel của chúng ta như 1 mảng byte để trả về response
+            Response.BinaryWrite(bufferStream.ToArray());
+            Console.WriteLine("done!");
+            // Send tất cả ouput bytes về phía clients
+            Response.Flush();
+            Response.End();
+            return RedirectToAction("Index", "Home");
+        }
+
 
     }
 

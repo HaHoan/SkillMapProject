@@ -63,6 +63,7 @@ function GetSkillOfStaffListWithDept() {
             $(".loading").hide();
         }
     });
+    
 }
 
 var selectedUser = "";
@@ -125,3 +126,8 @@ function UpdateNewStaff() {
     });
 }
 
+function exportToExcel() {
+    var skillID = $("#list_skill option:selected").val();
+    window.location.href = 'Home/Export?SkillID=' + skillID;
+   
+}
