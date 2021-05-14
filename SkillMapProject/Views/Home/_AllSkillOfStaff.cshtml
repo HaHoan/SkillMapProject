@@ -21,6 +21,7 @@
                             }*@
             <td><a href="@Url.Action("ViewSkillForStaff", "Home", new { ID = cer.userID })" target="">@cer.Code</a></td>
             <td>@cer.FullName</td>
+            <td>@cer.Customer</td>
             @foreach (var skill in cer.dics.Keys)
             {
                 var cerInDics = new Certification();

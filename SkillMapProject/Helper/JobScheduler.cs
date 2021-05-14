@@ -40,6 +40,7 @@ namespace SkillMapProject.Helper
                 {
                     using (var db = new UMC_SKILLEntities())
                     {
+
                         GA_UMCEntities gaDB = new GA_UMCEntities();
                         object[] param =
                             {
@@ -49,10 +50,11 @@ namespace SkillMapProject.Helper
                                 Direction = ParameterDirection.Output
                             }
                         };
-                        var reports = gaDB.Database.SqlQuery<Employees>("EXEC [dbo].[sp_Get_All_Staff] @deptCode", param).ToList();
+                        var reports = gaDB.sp_Get_All_Staff_2().ToList();
                         var list = db.Members.ToList();
                         foreach (var mem in list)
                         {
+                            //Nếu không có trên ds Ga
                             if (reports.Where(m => m.StaffCode == mem.Code).FirstOrDefault() == null)
                             {
                                 var memInDb = db.Members.Where(m => m.Code == mem.Code).FirstOrDefault();
@@ -62,6 +64,7 @@ namespace SkillMapProject.Helper
                         }
                         foreach (var employee in reports)
                         {
+                            // Nếu không có trên ds member thì thêm vào
                             var eInSkillMap = db.Members.Where(m => m.Code == employee.StaffCode).FirstOrDefault();
                             if (eInSkillMap == null)
                             {
@@ -73,7 +76,8 @@ namespace SkillMapProject.Helper
                                     RoleID = 1,
                                     Removed = 0,
                                     Pass = "umcvn",
-                                    Pos = employee.PosName
+                                    Pos = employee.PosName,
+                                    Customer = employee.Customer
                                 };
                                 if (employee.EntryDate is DateTime date)
                                 {
@@ -95,15 +99,23 @@ namespace SkillMapProject.Helper
                                     eInSkillMap.Pos = employee.PosName;
                                     isChanged = true;
                                 }
+                                if (eInSkillMap.Customer != employee.Customer)
+                                {
+                                    eInSkillMap.Customer = employee.Customer;
+                                    isChanged = true;
+                                }
                                 if (isChanged)
                                     db.SaveChanges();
                             }
                         }
-
+                        
                     }
+
                 }
-                catch (Exception)
+                catch (Exception e)
+
                 {
+                    Console.WriteLine(e.ToString());
                 }
 
             }

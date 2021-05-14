@@ -11,6 +11,7 @@ namespace SkillMapProject.Models
         public string Code { get; set; }
         public string FullName { get; set; }
         public string Dept { get; set; }
+        public string Customer { get; set; }
         public string DateEnter { get; set; }
         public List<Certification> ListSkills { get; set; }
         public Dictionary<Skill, Certification> dics { get; set; }

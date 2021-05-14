@@ -10,11 +10,16 @@
 namespace SkillMapProject.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class LOG
+    public partial class sp_Get_All_Staff_2_Result
     {
-        public int Id { get; set; }
-        public System.DateTime LastUpdateTime { get; set; }
+        public string StaffCode { get; set; }
+        public string FullName { get; set; }
+        public string DeptCode { get; set; }
+        public System.DateTime BirthDate { get; set; }
+        public string Sex { get; set; }
+        public Nullable<System.DateTime> EntryDate { get; set; }
+        public string PosName { get; set; }
+        public string Customer { get; set; }
     }
 }

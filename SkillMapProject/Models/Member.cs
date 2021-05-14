@@ -41,7 +41,8 @@ namespace SkillMapProject.Models
         public System.DateTime DateEnter { get; set; }
         public int Removed { get; set; }
         public string Pass { get; set; }
-    
+        public string Customer { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Certification> Certifications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

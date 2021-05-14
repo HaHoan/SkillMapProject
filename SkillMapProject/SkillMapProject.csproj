@@ -171,9 +171,6 @@
     <Compile Include="Models\HISTORY_SKILLMAP.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\LOG.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Member.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -230,6 +227,15 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SkillMapByUser.cs" />
+    <Compile Include="Models\sp_Get_All_CheckEye_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_Get_All_Check_Solders_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_Get_All_Staff_2_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

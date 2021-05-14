@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GA_UMCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GA_UMCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="MS_Department">
           <Key>
             <PropertyRef Name="DeptCode" />
@@ -17,11 +17,18 @@
           <Property Name="ModifyPerson" Type="varchar" MaxLength="20" />
           <Property Name="Modifydate" Type="datetime" />
         </EntityType>
+        <Function Name="sp_Get_All_Check_Solders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="sp_Get_All_Check Solders">
+          <Parameter Name="deptCode" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Get_All_CheckEye" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="deptCode" Type="varchar" Mode="In" />
+          <Parameter Name="staffCode" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Get_All_Staff_2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="GA_UMCModelStoreContainer">
           <EntitySet Name="MS_Department" EntityType="Self.MS_Department" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GA_UMCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -39,7 +46,65 @@
         </EntityType>
         <EntityContainer Name="GA_UMCEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="MS_Department" EntityType="Self.MS_Department" />
+          <FunctionImport Name="sp_Get_All_Check_Solders" ReturnType="Collection(GA_UMCModel.sp_Get_All_Check_Solders_Result)">
+          <Parameter Name="deptCode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Get_All_CheckEye" ReturnType="Collection(GA_UMCModel.sp_Get_All_CheckEye_Result)">
+            <Parameter Name="deptCode" Mode="In" Type="String" />
+            <Parameter Name="staffCode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Get_All_Staff_2" ReturnType="Collection(GA_UMCModel.sp_Get_All_Staff_2_Result)" />
         </EntityContainer>
+        <ComplexType Name="sp_Get_All_Check_Solders_Result">
+          <Property Type="String" Name="StaffCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DeptCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Sex" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="PosName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="CapDoHan" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="NgayCap" Nullable="true" Precision="23" />
+          <Property Type="String" Name="NangCapDo" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="NgayNangCap" Nullable="true" Precision="23" />
+          <Property Type="String" Name="CNNguoiDaoTao" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="NgayCNNguoiDaoTao" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="NgayThiXacNhan" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="NgayThiThucTe" Nullable="true" Precision="23" />
+          <Property Type="String" Name="KetQuaThiXacNhan" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="Solanthi" Nullable="true" />
+          <Property Type="Int32" Name="CUS_ID" Nullable="true" />
+          <Property Type="String" Name="CUS_Name" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_Get_All_CheckEye_Result">
+          <Property Type="String" Name="StaffCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DeptCode" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Sex" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="PosName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="CapDo" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="NgayCap" Nullable="true" Precision="23" />
+          <Property Type="String" Name="NangCap" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="NgayNangCap" Nullable="true" Precision="23" />
+          <Property Type="String" Name="LoaiChuyenDoi" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="NgayChuyenDoi" Nullable="true" Precision="23" />
+          <Property Type="String" Name="CNNguoiDaoTao" Nullable="true" MaxLength="150" />
+          <Property Type="DateTime" Name="NgayCNNguoiDaoTao" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="NgayThi" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="NgayThiThucTe" Nullable="true" Precision="23" />
+          <Property Type="String" Name="KetQuaThi" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Solanthi" Nullable="true" />
+          <Property Type="Int32" Name="CUS_ID" Nullable="true" />
+          <Property Type="String" Name="CUS_Name" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_Get_All_Staff_2_Result">
+          <Property Type="String" Name="StaffCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DeptCode" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="BirthDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Sex" Nullable="true" MaxLength="3" />
+          <Property Type="DateTime" Name="EntryDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="PosName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Customer" Nullable="true" MaxLength="300" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -59,6 +124,68 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_Get_All_Check_Solders" FunctionName="GA_UMCModel.Store.sp_Get_All_Check_Solders">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GA_UMCModel.sp_Get_All_Check_Solders_Result">
+                <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="DeptCode" ColumnName="DeptCode" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="PosName" ColumnName="PosName" />
+                <ScalarProperty Name="CapDoHan" ColumnName="CapDoHan" />
+                <ScalarProperty Name="NgayCap" ColumnName="NgayCap" />
+                <ScalarProperty Name="NangCapDo" ColumnName="NangCapDo" />
+                <ScalarProperty Name="NgayNangCap" ColumnName="NgayNangCap" />
+                <ScalarProperty Name="CNNguoiDaoTao" ColumnName="CNNguoiDaoTao" />
+                <ScalarProperty Name="NgayCNNguoiDaoTao" ColumnName="NgayCNNguoiDaoTao" />
+                <ScalarProperty Name="NgayThiXacNhan" ColumnName="NgayThiXacNhan" />
+                <ScalarProperty Name="NgayThiThucTe" ColumnName="NgayThiThucTe" />
+                <ScalarProperty Name="KetQuaThiXacNhan" ColumnName="KetQuaThiXacNhan" />
+                <ScalarProperty Name="Solanthi" ColumnName="Solanthi" />
+                <ScalarProperty Name="CUS_ID" ColumnName="CUS_ID" />
+                <ScalarProperty Name="CUS_Name" ColumnName="CUS_Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Get_All_CheckEye" FunctionName="GA_UMCModel.Store.sp_Get_All_CheckEye">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GA_UMCModel.sp_Get_All_CheckEye_Result">
+                <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="DeptCode" ColumnName="DeptCode" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="PosName" ColumnName="PosName" />
+                <ScalarProperty Name="CapDo" ColumnName="CapDo" />
+                <ScalarProperty Name="NgayCap" ColumnName="NgayCap" />
+                <ScalarProperty Name="NangCap" ColumnName="NangCap" />
+                <ScalarProperty Name="NgayNangCap" ColumnName="NgayNangCap" />
+                <ScalarProperty Name="LoaiChuyenDoi" ColumnName="LoaiChuyenDoi" />
+                <ScalarProperty Name="NgayChuyenDoi" ColumnName="NgayChuyenDoi" />
+                <ScalarProperty Name="CNNguoiDaoTao" ColumnName="CNNguoiDaoTao" />
+                <ScalarProperty Name="NgayCNNguoiDaoTao" ColumnName="NgayCNNguoiDaoTao" />
+                <ScalarProperty Name="NgayThi" ColumnName="NgayThi" />
+                <ScalarProperty Name="NgayThiThucTe" ColumnName="NgayThiThucTe" />
+                <ScalarProperty Name="KetQuaThi" ColumnName="KetQuaThi" />
+                <ScalarProperty Name="Solanthi" ColumnName="Solanthi" />
+                <ScalarProperty Name="CUS_ID" ColumnName="CUS_ID" />
+                <ScalarProperty Name="CUS_Name" ColumnName="CUS_Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Get_All_Staff_2" FunctionName="GA_UMCModel.Store.sp_Get_All_Staff_2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GA_UMCModel.sp_Get_All_Staff_2_Result">
+                <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="DeptCode" ColumnName="DeptCode" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="EntryDate" ColumnName="EntryDate" />
+                <ScalarProperty Name="PosName" ColumnName="PosName" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

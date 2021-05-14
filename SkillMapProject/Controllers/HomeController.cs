@@ -15,10 +15,107 @@ namespace SkillMapProject.Controllers
 {
     public class HomeController : Controller
     {
+        private void UpdateData()
+        {
+            var gaDB = new GA_UMCEntities();
+            var db = new UMC_SKILLEntities();
+            var listCheckEyes = gaDB.sp_Get_All_CheckEye(null, null).ToList();
+            foreach (var checkEye in listCheckEyes)
+            {
+                var staff = db.Members.Where(m => m.Code == checkEye.StaffCode).FirstOrDefault();
+                if (staff != null)
+                {
+                    var cerInDb = db.Certifications.Where(m => m.UserID == staff.ID && m.SkillID == 17).FirstOrDefault();
+                    if (cerInDb == null)
+                    {
+                        cerInDb = new Certification();
+                        cerInDb.UserID = staff.ID;
+                        cerInDb.Code = staff.Code;
+                        cerInDb.Updator = 2309;
+                        cerInDb.UpdateTime = DateTime.Now;
+                        cerInDb.NguoiChamDiem = 2309;
+                        cerInDb.Mark = "100";
+                        cerInDb.Note = "";
+                        cerInDb.Result = "PASS";
+                        cerInDb.NgayThiXacNhan = checkEye.NgayThi;
+                        cerInDb.NgayThiThucTe = checkEye.NgayThiThucTe;
+                        cerInDb.TypeSkill = "Skill";
+                        cerInDb.SkillID = 17;
+                        cerInDb.CapDo = checkEye.CapDo;
+                        cerInDb.NgayCap = checkEye.NgayCap;
+                        cerInDb.NangCap = checkEye.NangCap;
+                        cerInDb.NgayNangCap = checkEye.NgayNangCap;
+                        cerInDb.CNNguoiDaoTao = checkEye.CNNguoiDaoTao;
+                        cerInDb.NgayCNNguoiDaoTao = checkEye.NgayCNNguoiDaoTao;
+                        db.Certifications.Add(cerInDb);
+                    }
+                    else
+                    {
+                        cerInDb.Updator = 2309;
+                        cerInDb.UpdateTime = DateTime.Now;
+                        cerInDb.NgayThiXacNhan = checkEye.NgayThi;
+                        cerInDb.NgayThiThucTe = checkEye.NgayThiThucTe;
+                        cerInDb.CapDo = checkEye.CapDo;
+                        cerInDb.NgayCap = checkEye.NgayCap;
+                        cerInDb.NangCap = checkEye.NangCap;
+                        cerInDb.NgayNangCap = checkEye.NgayNangCap;
+                        cerInDb.CNNguoiDaoTao = checkEye.CNNguoiDaoTao;
+                        cerInDb.NgayCNNguoiDaoTao = checkEye.NgayCNNguoiDaoTao;
+                    }
+                    db.SaveChanges();
+                }
+            }
+            var listHan = gaDB.sp_Get_All_Check_Solders(null).ToList();
+            foreach (var han in listHan)
+            {
+                var staff = db.Members.Where(m => m.Code == han.StaffCode).FirstOrDefault();
+                if (staff != null)
+                {
+                    var cerInDb = db.Certifications.Where(m => m.UserID == staff.ID && m.SkillID == 16).FirstOrDefault();
+                    if (cerInDb == null)
+                    {
+                        cerInDb = new Certification();
+                        cerInDb.UserID = staff.ID;
+                        cerInDb.Code = staff.Code;
+                        cerInDb.Updator = 2309;
+                        cerInDb.UpdateTime = DateTime.Now;
+                        cerInDb.NguoiChamDiem = 2309;
+                        cerInDb.Mark = "100";
+                        cerInDb.Note = "";
+                        cerInDb.Result = "PASS";
+                        cerInDb.NgayThiXacNhan = han.NgayThiXacNhan;
+                        cerInDb.NgayThiThucTe = han.NgayThiThucTe;
+                        cerInDb.TypeSkill = "Skill";
+                        cerInDb.SkillID = 16;
+                        cerInDb.CapDo = han.CapDoHan;
+                        cerInDb.NgayCap = han.NgayCap;
+                        cerInDb.NangCap = han.NangCapDo;
+                        cerInDb.NgayNangCap = han.NgayNangCap;
+                        cerInDb.CNNguoiDaoTao = han.CNNguoiDaoTao;
+                        cerInDb.NgayCNNguoiDaoTao = han.NgayCNNguoiDaoTao;
+                        db.Certifications.Add(cerInDb);
+                    }
+                    else
+                    {
+                        cerInDb.Updator = 2309;
+                        cerInDb.UpdateTime = DateTime.Now;
+                        cerInDb.NgayThiXacNhan = han.NgayThiXacNhan;
+                        cerInDb.NgayThiThucTe = han.NgayThiThucTe;
+                        cerInDb.CapDo = han.CapDoHan;
+                        cerInDb.NgayCap = han.NgayCap;
+                        cerInDb.NangCap = han.NangCapDo;
+                        cerInDb.NgayNangCap = han.NgayNangCap;
+                        cerInDb.CNNguoiDaoTao = han.CNNguoiDaoTao;
+                        cerInDb.NgayCNNguoiDaoTao = han.NgayCNNguoiDaoTao;
+                    }
+                    db.SaveChanges();
+                }
+            }
+        }
         public ActionResult Index()
         {
             var user = SessionHelper.Get<Member>(Constant.SESSION_LOGIN);
-
+            //UpdateData();
             if (user != null)
             {
                 using (var db = new UMC_SKILLEntities())
@@ -81,6 +178,7 @@ namespace SkillMapProject.Controllers
                         Code = u.Code,
                         FullName = u.Name,
                         Dept = u.Dept,
+                        Customer = u.Customer,
                         ListSkills = skills
                     };
                     foreach (var skill in allSkill)
@@ -429,7 +527,8 @@ namespace SkillMapProject.Controllers
                             FullName = u.Name,
                             Dept = u.Dept,
                             DateEnter = u.DateEnter.ToShortDateString(),
-                            ListSkills = skills
+                            ListSkills = skills,
+                            Customer = u.Customer
                         };
                         if (cerByUser != null)
                         {

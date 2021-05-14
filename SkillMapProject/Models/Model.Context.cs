@@ -28,13 +28,12 @@ namespace SkillMapProject.Models
         public virtual DbSet<Certification> Certifications { get; set; }
         public virtual DbSet<History> Histories { get; set; }
         public virtual DbSet<HISTORY_SKILLMAP> HISTORY_SKILLMAP { get; set; }
-        public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<MONHOC> MONHOCs { get; set; }
         public virtual DbSet<OLYMPIC> OLYMPICS { get; set; }
         public virtual DbSet<Role_Member> Role_Member { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<SkillLevel> SkillLevels { get; set; }
         public virtual DbSet<SKILLMAP> SKILLMAPs { get; set; }
-        public virtual DbSet<LOG> LOGS { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
     }
 }

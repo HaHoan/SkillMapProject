@@ -70,16 +70,6 @@
           <Property Name="NgayThamGia" Type="datetime" Nullable="false" />
           <Property Name="GhiChu" Type="nvarchar" MaxLength="250" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="LOGS">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="LastUpdateTime" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LastUpdateTime" Type="datetime" Nullable="false" />
-        </EntityType>
         <EntityType Name="Member">
           <Key>
             <PropertyRef Name="ID" />
@@ -93,6 +83,7 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
           <Property Name="DateEnter" Type="datetime" Nullable="false" />
           <Property Name="Removed" Type="int" Nullable="false" />
           <Property Name="Pass" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Customer" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="MONHOC">
           <Key>
@@ -400,12 +391,6 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
           <EntitySet Name="Skill" EntityType="Self.Skill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SkillLevel" EntityType="Self.SkillLevel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SKILLMAP" EntityType="Self.SKILLMAP" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="LOGS" EntityType="Self.LOGS" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [LOGS].[Id] AS [Id], 
-    [LOGS].[LastUpdateTime] AS [LastUpdateTime]
-    FROM [dbo].[LOGS] AS [LOGS]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_BoMonHisSkillMap" Association="Self.FK_BoMonHisSkillMap">
             <End Role="MONHOC" EntitySet="MONHOC" />
             <End Role="HISTORY_SKILLMAP" EntitySet="HISTORY_SKILLMAP" />
@@ -513,10 +498,10 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
           <Property Name="NgayCNNguoiDaoTao" Type="DateTime" Precision="3" />
           <Property Name="SoLanThi" Type="Int32" />
           <Property Name="NgayCap" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Member" Relationship="Self.FK_MemberCer" FromRole="Certification" ToRole="Member" />
-          <NavigationProperty Name="Member1" Relationship="Self.FK_MemberMarker" FromRole="Certification" ToRole="Member" />
-          <NavigationProperty Name="Member2" Relationship="Self.FK_MemberUpdatorCer" FromRole="Certification" ToRole="Member" />
           <NavigationProperty Name="Skill" Relationship="Self.FK_SkillCer" FromRole="Certification" ToRole="Skill" />
+          <NavigationProperty Name="Member" Relationship="UMC_SKILLModel.FK_MemberCer" FromRole="Certification" ToRole="Member" />
+          <NavigationProperty Name="Member1" Relationship="UMC_SKILLModel.FK_MemberMarker" FromRole="Certification" ToRole="Member" />
+          <NavigationProperty Name="Member2" Relationship="UMC_SKILLModel.FK_MemberUpdatorCer" FromRole="Certification" ToRole="Member" />
         </EntityType>
         <EntityType Name="History">
           <Key>
@@ -544,10 +529,10 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
           <Property Name="NgayCNNguoiDaoTao" Type="DateTime" Precision="3" />
           <Property Name="SoLanThi" Type="Int32" />
           <Property Name="NgayCap" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Member" Relationship="Self.FK_MemberHis" FromRole="History" ToRole="Member" />
-          <NavigationProperty Name="Member1" Relationship="Self.FK_MemberMarkerHis" FromRole="History" ToRole="Member" />
-          <NavigationProperty Name="Member2" Relationship="Self.FK_MemberUpdatorHis" FromRole="History" ToRole="Member" />
           <NavigationProperty Name="Skill" Relationship="Self.FK_SkillHis" FromRole="History" ToRole="Skill" />
+          <NavigationProperty Name="Member" Relationship="UMC_SKILLModel.FK_MemberHis" FromRole="History" ToRole="Member" />
+          <NavigationProperty Name="Member1" Relationship="UMC_SKILLModel.FK_MemberMarkerHis" FromRole="History" ToRole="Member" />
+          <NavigationProperty Name="Member2" Relationship="UMC_SKILLModel.FK_MemberUpdatorHis" FromRole="History" ToRole="Member" />
         </EntityType>
         <EntityType Name="HISTORY_SKILLMAP">
           <Key>
@@ -560,35 +545,7 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
           <Property Name="NgayThamGia" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="GhiChu" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MONHOC" Relationship="Self.FK_BoMonHisSkillMap" FromRole="HISTORY_SKILLMAP" ToRole="MONHOC" />
-          <NavigationProperty Name="Member" Relationship="Self.FK_MemberHisSkillMap" FromRole="HISTORY_SKILLMAP" ToRole="Member" />
-        </EntityType>
-        <EntityType Name="Member">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Dept" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Pos" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="RoleID" Type="Int32" />
-          <Property Name="DateEnter" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Removed" Type="Int32" Nullable="false" />
-          <Property Name="Pass" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Certifications" Relationship="Self.FK_MemberCer" FromRole="Member" ToRole="Certification" />
-          <NavigationProperty Name="Certifications1" Relationship="Self.FK_MemberMarker" FromRole="Member" ToRole="Certification" />
-          <NavigationProperty Name="Certifications2" Relationship="Self.FK_MemberUpdatorCer" FromRole="Member" ToRole="Certification" />
-          <NavigationProperty Name="Histories" Relationship="Self.FK_MemberHis" FromRole="Member" ToRole="History" />
-          <NavigationProperty Name="Histories1" Relationship="Self.FK_MemberMarkerHis" FromRole="Member" ToRole="History" />
-          <NavigationProperty Name="Histories2" Relationship="Self.FK_MemberUpdatorHis" FromRole="Member" ToRole="History" />
-          <NavigationProperty Name="HISTORY_SKILLMAP" Relationship="Self.FK_MemberHisSkillMap" FromRole="Member" ToRole="HISTORY_SKILLMAP" />
-          <NavigationProperty Name="OLYMPICS" Relationship="Self.FK_MEMBER_OLYMPIC" FromRole="Member" ToRole="OLYMPICS" />
-          <NavigationProperty Name="MONHOCs" Relationship="Self.FK_MemberCreateBy" FromRole="Member" ToRole="MONHOC" />
-          <NavigationProperty Name="Skills" Relationship="Self.FK_MemberCreater" FromRole="Member" ToRole="Skill" />
-          <NavigationProperty Name="MONHOCs1" Relationship="Self.FK_MemberModifyBy" FromRole="Member" ToRole="MONHOC" />
-          <NavigationProperty Name="SKILLMAPs" Relationship="Self.FK_MemberSkillMap" FromRole="Member" ToRole="SKILLMAP" />
-          <NavigationProperty Name="Skills1" Relationship="Self.FK_MemberUpdator" FromRole="Member" ToRole="Skill" />
-          <NavigationProperty Name="Role_Member" Relationship="Self.FK_RoleMember" FromRole="Member" ToRole="Role_Member" />
+          <NavigationProperty Name="Member" Relationship="UMC_SKILLModel.FK_MemberHisSkillMap" FromRole="HISTORY_SKILLMAP" ToRole="Member" />
         </EntityType>
         <EntityType Name="MONHOC">
           <Key>
@@ -604,9 +561,9 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
           <Property Name="Dept" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="Removed" Type="Int32" />
           <NavigationProperty Name="HISTORY_SKILLMAP" Relationship="Self.FK_BoMonHisSkillMap" FromRole="MONHOC" ToRole="HISTORY_SKILLMAP" />
-          <NavigationProperty Name="Member" Relationship="Self.FK_MemberCreateBy" FromRole="MONHOC" ToRole="Member" />
-          <NavigationProperty Name="Member1" Relationship="Self.FK_MemberModifyBy" FromRole="MONHOC" ToRole="Member" />
           <NavigationProperty Name="SKILLMAPs" Relationship="Self.FK_BoMonSkillMap" FromRole="MONHOC" ToRole="SKILLMAP" />
+          <NavigationProperty Name="Member" Relationship="UMC_SKILLModel.FK_MemberCreateBy" FromRole="MONHOC" ToRole="Member" />
+          <NavigationProperty Name="Member1" Relationship="UMC_SKILLModel.FK_MemberModifyBy" FromRole="MONHOC" ToRole="Member" />
         </EntityType>
         <EntityType Name="OLYMPIC">
           <Key>
@@ -619,7 +576,7 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
           <Property Name="TestNumber" Type="Int32" />
           <Property Name="TestDate" Type="DateTime" Precision="3" />
           <Property Name="TestResult" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Member" Relationship="Self.FK_MEMBER_OLYMPIC" FromRole="OLYMPICS" ToRole="Member" />
+          <NavigationProperty Name="Member" Relationship="UMC_SKILLModel.FK_MEMBER_OLYMPIC" FromRole="OLYMPIC" ToRole="Member" />
         </EntityType>
         <EntityType Name="Role_Member">
           <Key>
@@ -627,7 +584,7 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Members" Relationship="Self.FK_RoleMember" FromRole="Role_Member" ToRole="Member" />
+          <NavigationProperty Name="Members" Relationship="UMC_SKILLModel.FK_RoleMember" FromRole="Role_Member" ToRole="Member" />
         </EntityType>
         <EntityType Name="Skill">
           <Key>
@@ -644,9 +601,9 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
           <Property Name="Removed" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Certifications" Relationship="Self.FK_SkillCer" FromRole="Skill" ToRole="Certification" />
           <NavigationProperty Name="Histories" Relationship="Self.FK_SkillHis" FromRole="Skill" ToRole="History" />
-          <NavigationProperty Name="Member" Relationship="Self.FK_MemberCreater" FromRole="Skill" ToRole="Member" />
-          <NavigationProperty Name="Member1" Relationship="Self.FK_MemberUpdator" FromRole="Skill" ToRole="Member" />
           <NavigationProperty Name="SkillLevels" Relationship="Self.FK_SkillLevel" FromRole="Skill" ToRole="SkillLevel" />
+          <NavigationProperty Name="Member" Relationship="UMC_SKILLModel.FK_MemberCreater" FromRole="Skill" ToRole="Member" />
+          <NavigationProperty Name="Member1" Relationship="UMC_SKILLModel.FK_MemberUpdator" FromRole="Skill" ToRole="Member" />
         </EntityType>
         <EntityType Name="SkillLevel">
           <Key>
@@ -668,45 +625,9 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
           <Property Name="MaBoMon" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="NgayThamGia" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="GhiChu" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Member" Relationship="Self.FK_MemberSkillMap" FromRole="SKILLMAP" ToRole="Member" />
           <NavigationProperty Name="MONHOC" Relationship="Self.FK_BoMonSkillMap" FromRole="SKILLMAP" ToRole="MONHOC" />
+          <NavigationProperty Name="Member" Relationship="UMC_SKILLModel.FK_MemberSkillMap" FromRole="SKILLMAP" ToRole="Member" />
         </EntityType>
-        <Association Name="FK_MemberCer">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="Certification" Type="Self.Certification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Certification">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MemberMarker">
-          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
-          <End Role="Certification" Type="Self.Certification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Certification">
-              <PropertyRef Name="NguoiChamDiem" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MemberUpdatorCer">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="Certification" Type="Self.Certification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Certification">
-              <PropertyRef Name="Updator" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SkillCer">
           <End Role="Skill" Type="Self.Skill" Multiplicity="1" />
           <End Role="Certification" Type="Self.Certification" Multiplicity="*" />
@@ -716,42 +637,6 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
             </Principal>
             <Dependent Role="Certification">
               <PropertyRef Name="SkillID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MemberHis">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="History" Type="Self.History" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="History">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MemberMarkerHis">
-          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
-          <End Role="History" Type="Self.History" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="History">
-              <PropertyRef Name="NguoiChamDiem" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MemberUpdatorHis">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="History" Type="Self.History" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="History">
-              <PropertyRef Name="Updator" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -776,102 +661,6 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
             </Principal>
             <Dependent Role="HISTORY_SKILLMAP">
               <PropertyRef Name="MaBoMon" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MemberHisSkillMap">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="HISTORY_SKILLMAP" Type="Self.HISTORY_SKILLMAP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="HISTORY_SKILLMAP">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MEMBER_OLYMPIC">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="OLYMPICS" Type="Self.OLYMPIC" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="OLYMPICS">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MemberCreateBy">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="MONHOC" Type="Self.MONHOC" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="MONHOC">
-              <PropertyRef Name="CreateBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MemberCreater">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="Skill" Type="Self.Skill" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Skill">
-              <PropertyRef Name="Creator" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MemberModifyBy">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="MONHOC" Type="Self.MONHOC" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="MONHOC">
-              <PropertyRef Name="ModifyBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MemberSkillMap">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="SKILLMAP" Type="Self.SKILLMAP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SKILLMAP">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MemberUpdator">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="Skill" Type="Self.Skill" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Skill">
-              <PropertyRef Name="Updator" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RoleMember">
-          <End Role="Role_Member" Type="Self.Role_Member" Multiplicity="0..1" />
-          <End Role="Member" Type="Self.Member" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role_Member">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Member">
-              <PropertyRef Name="RoleID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -903,40 +692,15 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
           <EntitySet Name="Certifications" EntityType="Self.Certification" />
           <EntitySet Name="Histories" EntityType="Self.History" />
           <EntitySet Name="HISTORY_SKILLMAP" EntityType="Self.HISTORY_SKILLMAP" />
-          <EntitySet Name="Members" EntityType="Self.Member" />
           <EntitySet Name="MONHOCs" EntityType="Self.MONHOC" />
           <EntitySet Name="OLYMPICS" EntityType="Self.OLYMPIC" />
           <EntitySet Name="Role_Member" EntityType="Self.Role_Member" />
           <EntitySet Name="Skills" EntityType="Self.Skill" />
           <EntitySet Name="SkillLevels" EntityType="Self.SkillLevel" />
           <EntitySet Name="SKILLMAPs" EntityType="Self.SKILLMAP" />
-          <AssociationSet Name="FK_MemberCer" Association="Self.FK_MemberCer">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Certification" EntitySet="Certifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MemberMarker" Association="Self.FK_MemberMarker">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Certification" EntitySet="Certifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MemberUpdatorCer" Association="Self.FK_MemberUpdatorCer">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Certification" EntitySet="Certifications" />
-          </AssociationSet>
           <AssociationSet Name="FK_SkillCer" Association="Self.FK_SkillCer">
             <End Role="Skill" EntitySet="Skills" />
             <End Role="Certification" EntitySet="Certifications" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MemberHis" Association="Self.FK_MemberHis">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="History" EntitySet="Histories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MemberMarkerHis" Association="Self.FK_MemberMarkerHis">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="History" EntitySet="Histories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MemberUpdatorHis" Association="Self.FK_MemberUpdatorHis">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="History" EntitySet="Histories" />
           </AssociationSet>
           <AssociationSet Name="FK_SkillHis" Association="Self.FK_SkillHis">
             <End Role="Skill" EntitySet="Skills" />
@@ -946,38 +710,6 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
             <End Role="MONHOC" EntitySet="MONHOCs" />
             <End Role="HISTORY_SKILLMAP" EntitySet="HISTORY_SKILLMAP" />
           </AssociationSet>
-          <AssociationSet Name="FK_MemberHisSkillMap" Association="Self.FK_MemberHisSkillMap">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="HISTORY_SKILLMAP" EntitySet="HISTORY_SKILLMAP" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MEMBER_OLYMPIC" Association="Self.FK_MEMBER_OLYMPIC">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="OLYMPICS" EntitySet="OLYMPICS" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MemberCreateBy" Association="Self.FK_MemberCreateBy">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="MONHOC" EntitySet="MONHOCs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MemberCreater" Association="Self.FK_MemberCreater">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Skill" EntitySet="Skills" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MemberModifyBy" Association="Self.FK_MemberModifyBy">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="MONHOC" EntitySet="MONHOCs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MemberSkillMap" Association="Self.FK_MemberSkillMap">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="SKILLMAP" EntitySet="SKILLMAPs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MemberUpdator" Association="Self.FK_MemberUpdator">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="Skill" EntitySet="Skills" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoleMember" Association="Self.FK_RoleMember">
-            <End Role="Role_Member" EntitySet="Role_Member" />
-            <End Role="Member" EntitySet="Members" />
-          </AssociationSet>
           <AssociationSet Name="FK_BoMonSkillMap" Association="Self.FK_BoMonSkillMap">
             <End Role="MONHOC" EntitySet="MONHOCs" />
             <End Role="SKILLMAP" EntitySet="SKILLMAPs" />
@@ -986,16 +718,261 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
             <End Role="Skill" EntitySet="Skills" />
             <End Role="SkillLevel" EntitySet="SkillLevels" />
           </AssociationSet>
-          <EntitySet Name="LOGS" EntityType="UMC_SKILLModel.LOG" />
+          <EntitySet Name="Members" EntityType="UMC_SKILLModel.Member" />
+          <AssociationSet Name="FK_MemberCer" Association="UMC_SKILLModel.FK_MemberCer">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Certification" EntitySet="Certifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberMarker" Association="UMC_SKILLModel.FK_MemberMarker">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Certification" EntitySet="Certifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberUpdatorCer" Association="UMC_SKILLModel.FK_MemberUpdatorCer">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Certification" EntitySet="Certifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberHis" Association="UMC_SKILLModel.FK_MemberHis">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="History" EntitySet="Histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberMarkerHis" Association="UMC_SKILLModel.FK_MemberMarkerHis">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="History" EntitySet="Histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberUpdatorHis" Association="UMC_SKILLModel.FK_MemberUpdatorHis">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="History" EntitySet="Histories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberHisSkillMap" Association="UMC_SKILLModel.FK_MemberHisSkillMap">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="HISTORY_SKILLMAP" EntitySet="HISTORY_SKILLMAP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MEMBER_OLYMPIC" Association="UMC_SKILLModel.FK_MEMBER_OLYMPIC">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="OLYMPIC" EntitySet="OLYMPICS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberCreateBy" Association="UMC_SKILLModel.FK_MemberCreateBy">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="MONHOC" EntitySet="MONHOCs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberCreater" Association="UMC_SKILLModel.FK_MemberCreater">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Skill" EntitySet="Skills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberModifyBy" Association="UMC_SKILLModel.FK_MemberModifyBy">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="MONHOC" EntitySet="MONHOCs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberSkillMap" Association="UMC_SKILLModel.FK_MemberSkillMap">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="SKILLMAP" EntitySet="SKILLMAPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberUpdator" Association="UMC_SKILLModel.FK_MemberUpdator">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Skill" EntitySet="Skills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleMember" Association="UMC_SKILLModel.FK_RoleMember">
+            <End Role="Role_Member" EntitySet="Role_Member" />
+            <End Role="Member" EntitySet="Members" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="LOG">
+        <EntityType Name="Member">
           <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="LastUpdateTime" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LastUpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Dept" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Pos" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="DateEnter" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Removed" Type="Int32" Nullable="false" />
+          <Property Name="Pass" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Customer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Certifications" Relationship="UMC_SKILLModel.FK_MemberCer" FromRole="Member" ToRole="Certification" />
+          <NavigationProperty Name="Certifications1" Relationship="UMC_SKILLModel.FK_MemberMarker" FromRole="Member" ToRole="Certification" />
+          <NavigationProperty Name="Certifications2" Relationship="UMC_SKILLModel.FK_MemberUpdatorCer" FromRole="Member" ToRole="Certification" />
+          <NavigationProperty Name="Histories" Relationship="UMC_SKILLModel.FK_MemberHis" FromRole="Member" ToRole="History" />
+          <NavigationProperty Name="Histories1" Relationship="UMC_SKILLModel.FK_MemberMarkerHis" FromRole="Member" ToRole="History" />
+          <NavigationProperty Name="Histories2" Relationship="UMC_SKILLModel.FK_MemberUpdatorHis" FromRole="Member" ToRole="History" />
+          <NavigationProperty Name="HISTORY_SKILLMAP" Relationship="UMC_SKILLModel.FK_MemberHisSkillMap" FromRole="Member" ToRole="HISTORY_SKILLMAP" />
+          <NavigationProperty Name="OLYMPICS" Relationship="UMC_SKILLModel.FK_MEMBER_OLYMPIC" FromRole="Member" ToRole="OLYMPIC" />
+          <NavigationProperty Name="MONHOCs" Relationship="UMC_SKILLModel.FK_MemberCreateBy" FromRole="Member" ToRole="MONHOC" />
+          <NavigationProperty Name="Skills" Relationship="UMC_SKILLModel.FK_MemberCreater" FromRole="Member" ToRole="Skill" />
+          <NavigationProperty Name="MONHOCs1" Relationship="UMC_SKILLModel.FK_MemberModifyBy" FromRole="Member" ToRole="MONHOC" />
+          <NavigationProperty Name="SKILLMAPs" Relationship="UMC_SKILLModel.FK_MemberSkillMap" FromRole="Member" ToRole="SKILLMAP" />
+          <NavigationProperty Name="Skills1" Relationship="UMC_SKILLModel.FK_MemberUpdator" FromRole="Member" ToRole="Skill" />
+          <NavigationProperty Name="Role_Member" Relationship="UMC_SKILLModel.FK_RoleMember" FromRole="Member" ToRole="Role_Member" />
         </EntityType>
+        <Association Name="FK_MemberCer">
+          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="UMC_SKILLModel.Certification" Role="Certification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certification">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberMarker">
+          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="UMC_SKILLModel.Certification" Role="Certification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certification">
+              <PropertyRef Name="NguoiChamDiem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberUpdatorCer">
+          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="UMC_SKILLModel.Certification" Role="Certification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Certification">
+              <PropertyRef Name="Updator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberHis">
+          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="UMC_SKILLModel.History" Role="History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberMarkerHis">
+          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="UMC_SKILLModel.History" Role="History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="NguoiChamDiem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberUpdatorHis">
+          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="UMC_SKILLModel.History" Role="History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="History">
+              <PropertyRef Name="Updator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberHisSkillMap">
+          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="UMC_SKILLModel.HISTORY_SKILLMAP" Role="HISTORY_SKILLMAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="HISTORY_SKILLMAP">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MEMBER_OLYMPIC">
+          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="UMC_SKILLModel.OLYMPIC" Role="OLYMPIC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OLYMPIC">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberCreateBy">
+          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="UMC_SKILLModel.MONHOC" Role="MONHOC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MONHOC">
+              <PropertyRef Name="CreateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberCreater">
+          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="UMC_SKILLModel.Skill" Role="Skill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Skill">
+              <PropertyRef Name="Creator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberModifyBy">
+          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="UMC_SKILLModel.MONHOC" Role="MONHOC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MONHOC">
+              <PropertyRef Name="ModifyBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberSkillMap">
+          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="UMC_SKILLModel.SKILLMAP" Role="SKILLMAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SKILLMAP">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberUpdator">
+          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="UMC_SKILLModel.Skill" Role="Skill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Skill">
+              <PropertyRef Name="Updator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleMember">
+          <End Type="UMC_SKILLModel.Role_Member" Role="Role_Member" Multiplicity="0..1" />
+          <End Type="UMC_SKILLModel.Member" Role="Member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role_Member">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Member">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1067,21 +1044,6 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
                 <ScalarProperty Name="MaBoMon" ColumnName="MaBoMon" />
                 <ScalarProperty Name="NgayThamGia" ColumnName="NgayThamGia" />
                 <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Members">
-            <EntityTypeMapping TypeName="UMC_SKILLModel.Member">
-              <MappingFragment StoreEntitySet="Member">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Dept" ColumnName="Dept" />
-                <ScalarProperty Name="Pos" ColumnName="Pos" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-                <ScalarProperty Name="DateEnter" ColumnName="DateEnter" />
-                <ScalarProperty Name="Removed" ColumnName="Removed" />
-                <ScalarProperty Name="Pass" ColumnName="Pass" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1158,11 +1120,19 @@ warning 6002: The table/view 'UMC_SKILL.dbo.LOGS' does not have a primary key de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="LOGS">
-            <EntityTypeMapping TypeName="UMC_SKILLModel.LOG">
-              <MappingFragment StoreEntitySet="LOGS">
-                <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="UMC_SKILLModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="Pass" ColumnName="Pass" />
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="DateEnter" ColumnName="DateEnter" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="Pos" ColumnName="Pos" />
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
