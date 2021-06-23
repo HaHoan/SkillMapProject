@@ -55,7 +55,7 @@ namespace SkillMapProject.Helper
                         foreach (var mem in list)
                         {
                             //Nếu không có trên ds Ga
-                            if (reports.Where(m => m.StaffCode == mem.Code).FirstOrDefault() == null)
+                            if (reports.Where(m => m.StaffCode == mem.Code).FirstOrDefault() == null && mem.Removed == 0)
                             {
                                 var memInDb = db.Members.Where(m => m.Code == mem.Code).FirstOrDefault();
                                 memInDb.Removed = 1;

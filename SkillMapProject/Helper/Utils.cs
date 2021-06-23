@@ -41,6 +41,7 @@ namespace SkillMapProject.Helper
             //worksheet.DefaultColWidth = 50;
             // Tự động xuống hàng khi text quá dài
             worksheet.Cells.Style.WrapText = true;
+            worksheet.Cells.AutoFitColumns();
             // Tạo header
             worksheet.Cells[1, 1].Value = "Thông tin";
             worksheet.Cells["A1:E1"].Merge = true;
@@ -95,7 +96,7 @@ namespace SkillMapProject.Helper
                     worksheet.Cells[i + 3, 2].Value = item.Member.Name;
                     worksheet.Cells[i + 3, 3].Value = item.Member.Pos;
                     worksheet.Cells[i + 3, 4].Value = item.Member.Dept;
-                    worksheet.Cells[i + 3, 5].Value = "";
+                    worksheet.Cells[i + 3, 5].Value = item.Member.Customer;
                     worksheet.Cells[i + 3, 6].Value = item.LevelCurrent;
                     worksheet.Cells[i + 3, 7].Value = item.CurrentGrantDateStr;
                     worksheet.Cells[i + 3, 8].Value = item.NgayThiXacNhanStr;
